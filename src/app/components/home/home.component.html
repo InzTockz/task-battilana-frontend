@@ -1,0 +1,137 @@
+<div class="flex flex-row mb-10 ">
+    <div class="w-[20%]">
+    </div>
+    <div class="w-[65%] flex flex-col justify-center gap-5 mt-5 ">
+        <div class="flex flex-row gap-3 items-center">
+            <div class="flex flex-row gap-3 items-center w-full relative">
+                <lucide-angular [img]="icons.panelLeft" class=""></lucide-angular>
+                <div class="relative w-full">
+                    <lucide-icon class="absolute left-1 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 z-10"
+                        [name]="icons.search"></lucide-icon>
+                    <input class="input w-[80%] pl-9" placeholder="Buscar tarea">
+                </div>
+            </div>
+            <button onclick="modalRegistro.showModal()" class=" btn rounded-lg border"><lucide-icon
+                    [img]="icons.plus"></lucide-icon> Nueva tarea</button>
+
+            <!-- MODAL-->
+            <dialog #modalRegistro id="modalRegistro" class="modal">
+                <div class="modal-box">
+                    <div class="flex flex-col space-y-1.5 text-center sm:text-left">
+                        <h3 class="tracking-tight text-xl font-semibold text-purple-700">Registro de Tarea</h3>
+                        <p class="text-sm text-muted-foreground text-gray-400">Complete el formulario para registrar una
+                            nueva tarea.</p>
+                    </div>
+                    <div class="grid gap-4 py-4">
+                        <div class="grid gap-2">
+                            <label class="text-sm font-medium">Nombre de la Tarea</label>
+                            <input placeholder="Escriba la tarea..." [(ngModel)]="tarea.nombreTarea"
+                                class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm">
+                        </div>
+                        <div class="grid gap-2">
+                            <label class="text-sm font-medium">Descripción</label>
+                            <textarea placeholder="Escriba una descripcion..." [(ngModel)]="tarea.descripcion"
+                                class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"></textarea>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="grid gap-2 relative">
+                                <label class="text-sm font-medium">Fecha de Inicio</label>
+                                <input type="date" [(ngModel)]="tarea.fechaInicio" class="border rounded-md p-2">
+                            </div>
+                            <div class="grid gap-2">
+                                <label class="text-sm font-medium">Fecha de Fin</label>
+                                <input type="date" [(ngModel)]="tarea.fechaFin" class="border rounded-md p-2">
+                            </div>
+                        </div>
+                        <div class="grid gap-2">
+                            <label class="text-sm font-medium">Usuario</label>
+                            <select [(ngModel)]="tarea.idUsuariosEntity"
+                                class="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1">
+                                <option value="-1">Seleccione</option>
+                                <option *ngFor="let u of usuarios" [value]="u.idUsuarios">{{u.nombres}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-action">
+                            <button class="btn" (click)="closeModal()">Cancelar</button>
+                        <button class="btn" (click)="registrarTarea()">Registrar</button>
+                    </div>
+                </div>
+
+                <form method="dialog" class="modal-backdrop">
+                    <button></button>
+                </form>
+            </dialog>
+        </div>
+        <div class="divider -mt-3 mb-0"></div>
+        <div class="flex flex-col">
+            <div class="mb-4">
+                <h1 class="text-2xl font-semibold">Dashboard</h1>
+                <h2 class="text-gray-400 text">Gestion de tareas</h2>
+            </div>
+            <div class="flex flex-col justify-between md:flex-row gap-3 md:p-0">
+                <div class="card bg-base-100 shadow-2xl rounded-lg border md:w-[30%] w-full">
+                    <div class="card-body">
+                        <h3 class="text-left font-semibold text-base flex justify-between">Tareas pendientes
+                            <span-lucide [img]="icons.clock"></span-lucide>
+                        </h3>
+                        <p class="text-left font-bold text-xl">{{contadorPendiente}}</p>
+                        <h4 class="hidden text-left text-xs text-gray-500">4 tareas con vencimiento hoy</h4>
+                        <div class="divider -mt-1 -mb-1"></div>
+                    </div>
+                </div>
+                <div class="card bg-base-100 shadow-2xl rounded-lg border md:w-[30%] w-full">
+                    <div class="card-body">
+                        <h3 class="text-left font-semibold text-base flex justify-between">Tareas Completadas
+                            <span-lucide [img]="icons.circleCheck"></span-lucide>
+                        </h3>
+                        <p class="text-left font-bold text-xl">{{contadorTerminado}}</p>
+                        <h4 class="hidden text-left text-xs text-gray-500">4 tareas con vencimiento hoy</h4>
+                        <div class="divider -mt-1 -mb-1"></div>
+                    </div>
+                </div>
+                <div class="card bg-base-100 shadow-2xl rounded-lg border md:w-[30%] w-full">
+                    <div class="card-body">
+                        <h3 class="text-left font-semibold text-base flex justify-between">Proyectos Activos
+                            <span-lucide [img]="icons.stadistic"></span-lucide>
+                        </h3>
+                        <p class="text-left font-bold text-xl">{{contadorPendiente}}</p>
+                        <h4 class="hidden text-left text-xs text-gray-500">4 tareas con vencimiento hoy</h4>
+                        <div class="divider -mt-1 -mb-1"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-5">
+            <h1 class="text-2xl font-semibold mb-5">Proyectos</h1>
+            <div class="flex flex-col gap-5">
+                <div class="card bg-base-100 w-full shadow-2xl rounded-lg border" *ngFor="let t of tareas">
+                    <div class="card-body">
+                        <div class="flex flex-row justify-between">
+                            <div class="badge badge-outline">Creado: {{t.fechaCreacion}}</div>
+                            <div class="badge badge-outline text-base font-bold">Estado: {{t.estado}}</div>
+                        </div>
+                        <div class="divider -mt-1 -mb-1"></div>
+                        <div class="flex flex-row justify-between mt-2 mb-2">
+                            <h2 class="card-title">{{t.nombreTarea}}
+                            </h2>
+                        </div>
+                        <p>{{t.descripcion}}
+                        </p>
+                        <div class="card-actions justify-between mt-5">
+                            <div class="badge badge-outline">
+                                Asignado: {{t.nombreUsuarioEntity}}
+                            </div>
+                            <div class="card-actions">
+                                <div class="badge badge-outline font-semibold text-base">Inicio:<span
+                                        class="font-bold">{{t.fechaInicio}}</span></div>
+                                <div class="badge badge-outline font-semibold text-base">Final:<span
+                                        class="font-bold">{{t.fechaFin}}</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
