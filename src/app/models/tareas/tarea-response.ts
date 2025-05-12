@@ -1,6 +1,7 @@
 import { Estados } from "./estados";
 
 export class TareaResponse {
+
     idTarea!: number;
     nombreTarea!: string;
     descripcion!: string;

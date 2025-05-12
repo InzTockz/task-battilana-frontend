@@ -3,16 +3,22 @@
     </div>
     <div class="w-[65%] flex flex-col justify-center gap-5 mt-5 ">
         <div class="flex flex-row gap-3 items-center">
-            <div class="flex flex-row gap-3 items-center w-full relative">
-                <lucide-angular [img]="icons.panelLeft" class=""></lucide-angular>
-                <div class="relative w-full">
-                    <lucide-icon class="absolute left-1 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 z-10"
-                        [name]="icons.search"></lucide-icon>
-                    <input class="input w-[80%] pl-9" placeholder="Buscar tarea">
+            <div class="flex flex-col gap-3 items-center w-full relative sm:flex-row">
+                <div class="flex w-full items-center gap-3 ">
+                    <lucide-angular [img]="icons.panelLeft" class=""></lucide-angular>
+                    <div class="relative w-full sm:text-left">
+                        <lucide-icon class="absolute left-1 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 z-10"
+                            [name]="icons.search"></lucide-icon>
+                        <input class="input w-[80%] pl-9" placeholder="Buscar tarea">
+                    </div>
                 </div>
+
+                <button onclick="modalRegistro.showModal()"
+                    class=" btn rounded-lg border border-base-content"><lucide-icon [img]="icons.plus"></lucide-icon>
+                    Nueva tarea</button>
+
             </div>
-            <button onclick="modalRegistro.showModal()" class=" btn rounded-lg border"><lucide-icon
-                    [img]="icons.plus"></lucide-icon> Nueva tarea</button>
+
 
             <!-- MODAL-->
             <dialog #modalRegistro id="modalRegistro" class="modal">
@@ -53,13 +59,13 @@
                         </div>
                     </div>
                     <div class="modal-action">
-                            <button class="btn" (click)="closeModal()">Cancelar</button>
+                        <button class="btn" (click)="closeModal()">Cancelar</button>
                         <button class="btn" (click)="registrarTarea()">Registrar</button>
                     </div>
                 </div>
 
                 <form method="dialog" class="modal-backdrop">
-                    <button></button>
+                    <button (click)="closeModal()"></button>
                 </form>
             </dialog>
         </div>
@@ -70,8 +76,9 @@
                 <h2 class="text-gray-400 text">Gestion de tareas</h2>
             </div>
             <div class="flex flex-col justify-between md:flex-row gap-3 md:p-0">
-                <div class="card bg-base-100 shadow-2xl rounded-lg border md:w-[30%] w-full">
-                    <div class="card-body">
+                <div
+                    class="card bg-base-100 shadow-2xl rounded-lg border border-base-content md:w-[30%] w-full bg-red-300">
+                    <div class="card-body text-black">
                         <h3 class="text-left font-semibold text-base flex justify-between">Tareas pendientes
                             <span-lucide [img]="icons.clock"></span-lucide>
                         </h3>
@@ -80,8 +87,9 @@
                         <div class="divider -mt-1 -mb-1"></div>
                     </div>
                 </div>
-                <div class="card bg-base-100 shadow-2xl rounded-lg border md:w-[30%] w-full">
-                    <div class="card-body">
+                <div
+                    class="card bg-base-100 shadow-2xl rounded-lg border border-base-content md:w-[30%] w-full bg-green-300">
+                    <div class="card-body text-black">
                         <h3 class="text-left font-semibold text-base flex justify-between">Tareas Completadas
                             <span-lucide [img]="icons.circleCheck"></span-lucide>
                         </h3>
@@ -90,8 +98,9 @@
                         <div class="divider -mt-1 -mb-1"></div>
                     </div>
                 </div>
-                <div class="card bg-base-100 shadow-2xl rounded-lg border md:w-[30%] w-full">
-                    <div class="card-body">
+                <div
+                    class="card bg-base-100 shadow-2xl rounded-lg border border-base-content md:w-[30%] w-full bg-blue-300">
+                    <div class="card-body text-black">
                         <h3 class="text-left font-semibold text-base flex justify-between">Proyectos Activos
                             <span-lucide [img]="icons.stadistic"></span-lucide>
                         </h3>
@@ -105,11 +114,13 @@
         <div class="mt-5">
             <h1 class="text-2xl font-semibold mb-5">Proyectos</h1>
             <div class="flex flex-col gap-5">
-                <div class="card bg-base-100 w-full shadow-2xl rounded-lg border" *ngFor="let t of tareas">
+                <div class="card bg-base-100 w-full shadow-2xl rounded-lg border border-base-content"
+                    *ngFor="let t of tareas">
                     <div class="card-body">
                         <div class="flex flex-row justify-between">
                             <div class="badge badge-outline">Creado: {{t.fechaCreacion}}</div>
-                            <div class="badge badge-outline text-base font-bold">Estado: {{t.estado}}</div>
+                            <div [ngClass]="trueDesign(t.estado)? 'bg-green-300':'bg-red-300'"
+                                class="badge badge-outline text-base font-bold text-black">Estado: {{t.estado}}</div>
                         </div>
                         <div class="divider -mt-1 -mb-1"></div>
                         <div class="flex flex-row justify-between mt-2 mb-2">

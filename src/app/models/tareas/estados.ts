@@ -1,3 +1,4 @@
 export enum Estados {
-    PENDIENTE, TERMINADO
+    PENDIENTE = 'PENDIENTE',
+    TERMINADO = 'TERMINADO'
 }

@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { TareaResponse } from '../models/tareas/tarea-response';
 import { Observable } from 'rxjs';
 import { TareaRequest } from '../models/tareas/tarea-request';
-import { TareaResponse } from '../models/tareas/tarea-response';
 
 @Injectable({
   providedIn: 'root'
