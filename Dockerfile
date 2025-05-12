@@ -5,7 +5,7 @@ FROM nginx:alpine
 COPY ./dist/task-battilana/browser /usr/share/nginx/html
 
 #(Opcional) sobreescribir el nginx.conf si quieres rutas personalizadas (como angular routing)
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+#COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 #Exponer el puerto donde corre NGINX
 EXPOSE 80
