@@ -2,7 +2,7 @@
 FROM nginx:alpine
 
 #Copiar el contenido del build Angular a la carpeta que NGINX sirve
-COPY dist/task-battilana /usr/share/nginx/html
+COPY dist/task-battilana/browser /usr/share/nginx/html
 
 #(Opcional) sobreescribir el nginx.conf si quieres rutas personalizadas (como angular routing)
 #COPY nginx.conf /etc/nginx/conf.d/default.conf
