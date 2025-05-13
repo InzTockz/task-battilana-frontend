@@ -1,26 +1,20 @@
-<div class="flex flex-row mb-10 ">
-    <div class="w-[20%]">
-    </div>
-    <div class="w-[65%] flex flex-col justify-center gap-5 mt-5 ">
+<div class="flex flex-row mb-10 justify-center">
+    <div class="w-[85%] flex flex-col justify-center gap-5 mt-5 ">
         <div class="flex flex-row gap-3 items-center">
             <div class="flex flex-col gap-3 items-center w-full relative sm:flex-row">
                 <div class="flex w-full items-center gap-3 ">
-                    <lucide-angular [img]="icons.panelLeft" class=""></lucide-angular>
                     <img src="logito-battilanience.jpeg" width="50px" height="50px">
                     <div class="relative w-full sm:text-left">
                         <lucide-icon class="absolute left-1 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 z-10"
                             [name]="icons.search"></lucide-icon>
-                        <input class="input w-[80%] pl-9" placeholder="Buscar tarea">
+                        <input class="input w-[80%] pl-9 border border-black" placeholder="Buscar tarea">
                     </div>
                 </div>
 
                 <button onclick="modalRegistro.showModal()"
                     class=" btn rounded-lg border border-base-content"><lucide-icon [img]="icons.plus"></lucide-icon>
                     Nueva tarea</button>
-
             </div>
-
-
             <!-- MODAL-->
             <dialog #modalRegistro id="modalRegistro" class="modal">
                 <div class="modal-box max-h-screen overflow-y-auto">
@@ -72,10 +66,11 @@
         </div>
         <div class="divider -mt-3 mb-0"></div>
         <div class="flex flex-col">
+            <!--
             <div class="mb-4">
                 <h1 class="text-2xl font-semibold">Dashboard</h1>
                 <h2 class="text-gray-400 text">Gestion de tareas</h2>
-            </div>
+            </div> -->
             <div class="flex flex-col justify-between md:flex-row gap-3 md:p-0">
                 <div
                     class="card bg-base-100 shadow-2xl rounded-lg border border-base-content md:w-[30%] w-full bg-red-300">
@@ -84,7 +79,6 @@
                             <span-lucide [img]="icons.clock"></span-lucide>
                         </h3>
                         <p class="text-left font-bold text-xl">{{contadorPendiente}}</p>
-                        <h4 class="hidden text-left text-xs text-gray-500">4 tareas con vencimiento hoy</h4>
                         <div class="divider -mt-1 -mb-1"></div>
                     </div>
                 </div>
@@ -95,7 +89,6 @@
                             <span-lucide [img]="icons.circleCheck"></span-lucide>
                         </h3>
                         <p class="text-left font-bold text-xl">{{contadorTerminado}}</p>
-                        <h4 class="hidden text-left text-xs text-gray-500">4 tareas con vencimiento hoy</h4>
                         <div class="divider -mt-1 -mb-1"></div>
                     </div>
                 </div>
@@ -106,7 +99,6 @@
                             <span-lucide [img]="icons.stadistic"></span-lucide>
                         </h3>
                         <p class="text-left font-bold text-xl">{{contadorPendiente}}</p>
-                        <h4 class="hidden text-left text-xs text-gray-500">4 tareas con vencimiento hoy</h4>
                         <div class="divider -mt-1 -mb-1"></div>
                     </div>
                 </div>
@@ -118,18 +110,30 @@
                 <div class="card bg-base-100 w-full shadow-2xl rounded-lg border border-base-content"
                     *ngFor="let t of tareas">
                     <div class="card-body">
-                        <div class="flex flex-row justify-between">
-                            <div class="badge badge-outline">Creado: {{t.fechaCreacion}}</div>
+                        <div class="-mt-3 flex justify-end mb-5 relative">
+                            <button>
+                            <lucide-icon class="absolute -top-2 -right-3.5 text-red-700" [img]="icons.trash"></lucide-icon>
+                            </button>
+                        </div>
+                        <div class="flex flex-row justify-between ">
+                            <div class="badge badge-outline p-3">Creado: {{t.fechaCreacion}}</div>
                             <div [ngClass]="trueDesign(t.estado)? 'bg-green-300':'bg-red-300'"
-                                class="badge badge-outline text-base font-bold text-black">Estado: {{t.estado}}</div>
+                                class="badge badge-outline text-base font-bold text-black p-3">Estado: {{t.estado}}
+                            </div>
                         </div>
                         <div class="divider -mt-1 -mb-1"></div>
                         <div class="flex flex-row justify-between mt-2 mb-2">
-                            <h2 class="card-title">{{t.nombreTarea}}
-                            </h2>
+                            <div>
+                                <h2 class="card-title">{{t.nombreTarea}}
+                                </h2>
+                                <p>{{t.descripcion}}</p>
+                            </div>
+                            <div *ngIf="t.estado === 'PENDIENTE'" class="flex flex-row">
+                                <button class=><lucide-icon class="text-green-500 size-8"
+                                        [img]="icons.circleCheck"></lucide-icon></button>
+                            </div>
                         </div>
-                        <p>{{t.descripcion}}
-                        </p>
+
                         <div class="card-actions justify-between mt-5">
                             <div class="badge badge-outline">
                                 Asignado: {{t.nombreUsuarioEntity}}

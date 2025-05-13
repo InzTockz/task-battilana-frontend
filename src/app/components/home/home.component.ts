@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { LucideAngularModule, FileIcon, PanelLeft, Plus, Clock, ChartColumn, Search, CircleCheck } from 'lucide-angular';
+import { LucideAngularModule, FileIcon, PanelLeft, Plus, Clock, ChartColumn, Search, CircleCheck, Check, Trash2 } from 'lucide-angular';
 import { TareaResponse } from '../../models/tareas/tarea-response';
 import { UsuariosResponse } from '../../models/usuarios/usuarios-response';
 import { TareaRequest } from '../../models/tareas/tarea-request';
@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit{
 
   readonly icons = {
     fileIcon: FileIcon, panelLeft: PanelLeft, plus: Plus, clock: Clock, circleCheck: CircleCheck,
-    stadistic: ChartColumn, search: Search
+    stadistic: ChartColumn, search: Search, trash:Trash2
   }
 
   @ViewChild('modalRegistro') modalRegistro!: ElementRef<HTMLDialogElement>;
