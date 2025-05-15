@@ -6,9 +6,10 @@ import { TareaRequest } from '../../models/tareas/tarea-request';
 import { CommonModule } from '@angular/common';
 import { TareasService } from '../../services/tareas.service';
 import { UsuariosService } from '../../services/usuarios.service';
-import {FormsModule} from '@angular/forms'
+import { FormsModule } from '@angular/forms'
 import { ToastrService } from 'ngx-toastr';
 import { Estados } from '../../models/tareas/estados';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-home',
@@ -16,11 +17,11 @@ import { Estados } from '../../models/tareas/estados';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent implements OnInit{
+export class HomeComponent implements OnInit {
 
   readonly icons = {
     fileIcon: FileIcon, panelLeft: PanelLeft, plus: Plus, clock: Clock, circleCheck: CircleCheck,
-    stadistic: ChartColumn, search: Search, trash:Trash2
+    stadistic: ChartColumn, search: Search, trash: Trash2
   }
 
   @ViewChild('modalRegistro') modalRegistro!: ElementRef<HTMLDialogElement>;
@@ -33,7 +34,7 @@ export class HomeComponent implements OnInit{
   fechaInicio: string = "";
   fechaFin: string = "";
 
-  constructor(private tareasService: TareasService, private usuariosService: UsuariosService, private toastr:ToastrService){}
+  constructor(private tareasService: TareasService, private usuariosService: UsuariosService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.listarTareas();
@@ -67,15 +68,66 @@ export class HomeComponent implements OnInit{
     )
   }
 
+  actualizarEstado(idTarea: number): void {
+    Swal.fire({
+      title: "Desea marcar como culminada?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si.",
+      cancelButtonText: "No"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.tareasService.updateStatus(idTarea).subscribe(
+          () => {
+            this.toastr.success('Tarea actualizada');
+            this.listarTareas()
+            this.listarContadorPendiente();
+            this.listarContadorTerminado();
+          }
+        )
+      }
+    });
+
+  }
+
+  eliminarTarea(idTarea: number): void {
+    Swal.fire({
+      title: "Estas seguro?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, estoy seguro.",
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.tareasService.deleteTarea(idTarea).subscribe(
+          () => {
+            this.listarTareas();
+            this.listarContadorPendiente();
+            this.listarContadorTerminado();
+            Swal.fire({
+              title: "Eliminado!",
+              text: "La tarea ha sido eliminada.",
+              icon: "success"
+            });
+          }
+        );
+      }
+    });
+  }
+
   closeModal() {
     this.modalRegistro.nativeElement.close();
     this.tarea = new TareaRequest();
   }
 
-  trueDesign(estadoBol:string):boolean{
-    if(estadoBol === 'TERMINADO'){
+  trueDesign(estadoBol: string): boolean {
+    if (estadoBol === 'TERMINADO') {
       return true;
-    }else {
+    } else {
       return false;
     }
   }
