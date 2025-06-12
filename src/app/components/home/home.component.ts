@@ -27,6 +27,9 @@ export class HomeComponent implements OnInit {
   @ViewChild('modalRegistro') modalRegistro!: ElementRef<HTMLDialogElement>;
 
   tareas: TareaResponse[] = [];
+  tareasFiltradas!:TareaResponse[];
+  busquedaInput:string="";
+  tareaEstado: string = "";
   usuarios: UsuariosResponse[] = [];
   contadorPendiente!: number;
   contadorTerminado!: number;
@@ -43,8 +46,51 @@ export class HomeComponent implements OnInit {
     this.usuariosService.getUsuarios().subscribe(response => this.usuarios = response);
   }
 
+  buscarTarea():void{
+    const termino = this.busquedaInput.toLowerCase();
+    this.tareasFiltradas = this.tareas.filter(
+      response => response.nombreTarea.toLowerCase().includes(termino)
+    )
+  }
+
+  listarTerminado(): void {
+    this.tareasService.getTerminado().subscribe(
+      response => {
+        this.tareas = response
+        this.tareaEstado = "terminado"
+        this.tareasFiltradas = this.tareas;
+      }
+    )
+  }
+
+  listarPendientes(): void {
+    this.tareasService.getPendiente().subscribe(
+      response => {
+        this.tareas = response;
+        this.tareaEstado = "pendiente"
+        this.tareasFiltradas = this.tareas;
+      }
+    )
+    this.usuariosService.getUsuarios().subscribe(response => this.usuarios = response);
+  }
+
+  listarTotal():void{
+    this.tareasService.getTareas().subscribe(
+      response => {
+        this.tareas = response
+        this.tareaEstado = "tarea"
+        this.tareasFiltradas = this.tareas;
+      }
+    )
+  }
+
   listarTareas(): void {
-    this.tareasService.getTareas().subscribe(response => this.tareas = response)
+    this.tareasService.getPendiente().subscribe(
+      response => {
+        this.tareas = response
+        this.tareasFiltradas = this.tareas;
+      }
+    )
   }
 
   listarContadorPendiente(): void {

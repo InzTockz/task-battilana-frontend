@@ -45,4 +45,12 @@ export class TareasService {
   updateStatus(idTarea:number):Observable<void>{
     return this.http.put<void>(`${this.tareasApi}/actualizar-estado/${idTarea}`, null);
   }
+
+  getPendiente():Observable<TareaResponse[]>{
+    return this.http.get<TareaResponse[]>(`${this.tareasApi}/listado-pendientes`);
+  }
+
+  getTerminado():Observable<TareaResponse[]>{
+    return this.http.get<TareaResponse[]>(`${this.tareasApi}/listado-terminado`);
+  }
 }

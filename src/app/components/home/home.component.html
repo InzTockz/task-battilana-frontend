@@ -7,7 +7,8 @@
                     <div class="relative w-full sm:text-left">
                         <lucide-icon class="absolute left-1 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 z-10"
                             [name]="icons.search"></lucide-icon>
-                        <input class="input w-[80%] pl-9 border border-black" placeholder="Buscar tarea">
+                        <input class="input w-[80%] pl-9 border border-black" placeholder="Buscar tarea"
+                        [(ngModel)]="busquedaInput" (input)="buscarTarea()">
                     </div>
                 </div>
 
@@ -66,13 +67,8 @@
         </div>
         <div class="divider -mt-3 mb-0"></div>
         <div class="flex flex-col">
-            <!--
-            <div class="mb-4">
-                <h1 class="text-2xl font-semibold">Dashboard</h1>
-                <h2 class="text-gray-400 text">Gestion de tareas</h2>
-            </div> -->
             <div class="flex flex-col justify-between md:flex-row gap-3 md:p-0">
-                <div
+                <div (click)="listarPendientes()" [ngClass]="tareaEstado == 'pendiente' ? 'bg-red-400':''"
                     class="card bg-base-100 shadow-2xl rounded-lg border border-base-content md:w-[30%] w-full bg-red-300">
                     <div class="card-body text-black">
                         <h3 class="text-left font-semibold text-base flex justify-between">Tareas pendientes
@@ -82,7 +78,7 @@
                         <div class="divider -mt-1 -mb-1"></div>
                     </div>
                 </div>
-                <div
+                <div (click)="listarTerminado()" [ngClass]="tareaEstado == 'terminado' ? 'bg-green-400':''"
                     class="card bg-base-100 shadow-2xl rounded-lg border border-base-content md:w-[30%] w-full bg-green-300">
                     <div class="card-body text-black">
                         <h3 class="text-left font-semibold text-base flex justify-between">Tareas Completadas
@@ -92,10 +88,10 @@
                         <div class="divider -mt-1 -mb-1"></div>
                     </div>
                 </div>
-                <div
+                <div (click)="listarTotal()" [ngClass]="tareaEstado == 'tarea' ? 'bg-blue-400':''"
                     class="card bg-base-100 shadow-2xl rounded-lg border border-base-content md:w-[30%] w-full bg-blue-300">
                     <div class="card-body text-black">
-                        <h3 class="text-left font-semibold text-base flex justify-between">Proyectos Activos
+                        <h3 class="text-left font-semibold text-base flex justify-between">Proyectos Totales
                             <span-lucide [img]="icons.stadistic"></span-lucide>
                         </h3>
                         <p class="text-left font-bold text-xl">{{contadorPendiente}}</p>
@@ -108,7 +104,7 @@
             <h1 class="text-2xl font-semibold mb-5">Proyectos</h1>
             <div class="flex flex-col gap-5">
                 <div class="card bg-base-100 w-full shadow-2xl rounded-lg border border-base-content"
-                    *ngFor="let t of tareas">
+                    *ngFor="let t of tareasFiltradas">
                     <div class="card-body relative">
                         <button class="-mb-2" (click)="eliminarTarea(t.idTarea)">
                             <lucide-icon class="absolute top-0.5 right-0.5 text-red-700"
