@@ -33,6 +33,7 @@ export class HomeComponent implements OnInit {
   usuarios: UsuariosResponse[] = [];
   contadorPendiente!: number;
   contadorTerminado!: number;
+  contadorTotales!:number;
   tarea: TareaRequest = new TareaRequest;
   fechaInicio: string = "";
   fechaFin: string = "";
@@ -43,6 +44,7 @@ export class HomeComponent implements OnInit {
     this.listarTareas();
     this.listarContadorPendiente();
     this.listarContadorTerminado();
+    this.listarContadorTotales();
     this.usuariosService.getUsuarios().subscribe(response => this.usuarios = response);
   }
 
@@ -99,6 +101,10 @@ export class HomeComponent implements OnInit {
 
   listarContadorTerminado(): void {
     this.tareasService.getContadorTerminado().subscribe(response => this.contadorTerminado = response);
+  }
+
+  listarContadorTotales():void{
+    this.tareasService.getContadorTotales().subscribe(response => this.contadorTotales = response);
   }
 
   registrarTarea(): void {

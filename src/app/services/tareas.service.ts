@@ -26,6 +26,10 @@ export class TareasService {
     return this.http.get<number>(`${this.tareasApi}/contador-terminados`);
   }
 
+  getContadorTotales():Observable<number>{
+    return this.http.get<number>(`${this.tareasApi}/contador-totales`);
+  }
+
   postTareas(tarea:TareaRequest):Observable<TareaResponse>{
     return this.http.post<TareaResponse>(`${this.tareasApi}/registrar`, tarea);
   }
