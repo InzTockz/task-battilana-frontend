@@ -81,7 +81,7 @@
                 <div (click)="listarTerminado()" [ngClass]="tareaEstado == 'terminado' ? 'bg-green-400':''"
                     class="card bg-base-100 shadow-2xl rounded-lg border border-base-content md:w-[30%] w-full bg-green-300">
                     <div class="card-body text-black">
-                        <h3 class="text-left font-semibold text-base flex justify-between">Tareas Completadas
+                        <h3 class="text-left font-semibold text-base flex justify-between">Tareas completadas
                             <span-lucide [img]="icons.circleCheck"></span-lucide>
                         </h3>
                         <p class="text-left font-bold text-xl">{{contadorTerminado}}</p>
@@ -91,7 +91,7 @@
                 <div (click)="listarTotal()" [ngClass]="tareaEstado == 'tarea' ? 'bg-blue-400':''"
                     class="card bg-base-100 shadow-2xl rounded-lg border border-base-content md:w-[30%] w-full bg-blue-300">
                     <div class="card-body text-black">
-                        <h3 class="text-left font-semibold text-base flex justify-between">Proyectos Totales
+                        <h3 class="text-left font-semibold text-base flex justify-between">Tareas totales
                             <span-lucide [img]="icons.stadistic"></span-lucide>
                         </h3>
                         <p class="text-left font-bold text-xl">{{contadorTotales}}</p>
@@ -135,10 +135,10 @@
                                 Asignado: {{t.nombreUsuarioEntity}}
                             </div>
                             <div class="card-actions">
-                                <div class="badge badge-outline font-semibold text-base">Inicio:<span
-                                        class="font-bold">{{t.fechaInicio}}</span></div>
+                                <div class="badge badge-outline font-semibold text-base ml-2">Inicio:<span
+                                        class="font-bold ml-1">{{t.fechaInicio}}</span></div>
                                 <div class="badge badge-outline font-semibold text-base">Final:<span
-                                        class="font-bold">{{t.fechaFin}}</span></div>
+                                        class="font-bold ml-1">{{t.fechaFin}}</span></div>
                             </div>
                         </div>
                     </div>
