@@ -12,6 +12,12 @@
                     </div>
                 </div>
 
+                <select class="select w-full max-w-xs border-base-content" [(ngModel)]="showTaskLogin" (change)="userChange($event)">
+                    <option value="0" disabled selected>Seleccione</option>
+                    <option value="1">Fredy Hurtado</option>
+                    <option value="2">Jhony Hurtado</option>
+                    <!--<option value="3">Fredy Hurtado</option> -->
+                </select>
                 <button onclick="modalRegistro.showModal()"
                     class=" btn rounded-lg border border-base-content"><lucide-icon [img]="icons.plus"></lucide-icon>
                     Nueva tarea</button>
@@ -68,7 +74,7 @@
         <div class="divider -mt-3 mb-0"></div>
         <div class="flex flex-col">
             <div class="flex flex-col justify-between md:flex-row gap-3 md:p-0">
-                <div (click)="listarPendientes()" [ngClass]="tareaEstado == 'pendiente' ? 'bg-red-400':''"
+                <div (click)="listarPendientePorUsuario()" [ngClass]="tareaEstado == 'pendiente' ? 'bg-red-400':''"
                     class="card bg-base-100 shadow-2xl rounded-lg border border-base-content md:w-[30%] w-full bg-red-300">
                     <div class="card-body text-black">
                         <h3 class="text-left font-semibold text-base flex justify-between">Tareas pendientes

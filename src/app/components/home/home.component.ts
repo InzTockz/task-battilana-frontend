@@ -27,16 +27,18 @@ export class HomeComponent implements OnInit {
   @ViewChild('modalRegistro') modalRegistro!: ElementRef<HTMLDialogElement>;
 
   tareas: TareaResponse[] = [];
-  tareasFiltradas!:TareaResponse[];
-  busquedaInput:string="";
+  tareasFiltradas!: TareaResponse[];
+  busquedaInput: string = "";
   tareaEstado: string = "";
   usuarios: UsuariosResponse[] = [];
   contadorPendiente!: number;
   contadorTerminado!: number;
-  contadorTotales!:number;
+  contadorTotales!: number;
   tarea: TareaRequest = new TareaRequest;
   fechaInicio: string = "";
   fechaFin: string = "";
+
+  showTaskLogin: any = "0";
 
   constructor(private tareasService: TareasService, private usuariosService: UsuariosService, private toastr: ToastrService) { }
 
@@ -46,17 +48,29 @@ export class HomeComponent implements OnInit {
     this.listarContadorTerminado();
     this.listarContadorTotales();
     this.usuariosService.getUsuarios().subscribe(response => this.usuarios = response);
+    this.showTaskLogin = localStorage.getItem("idUsuario") != null ? localStorage.getItem("idUsuario") : "0";
   }
 
-  buscarTarea():void{
-    const termino = this.busquedaInput.toLowerCase();
-    this.tareasFiltradas = this.tareas.filter(
-      response => response.nombreTarea.toLowerCase().includes(termino)
+  userChange(user: Event): void {
+    const idUsuario = user.target as HTMLInputElement;
+    localStorage.setItem("idUsuario", idUsuario.value);
+    this.listarTareas();
+  }
+
+  listarPendientePorUsuario(): void {
+    const idUsuario = localStorage.getItem("idUsuario");
+    this.tareasService.getPendientePorUsuario(Number(idUsuario)).subscribe(
+      response => {
+        this.tareas = response;
+        this.tareaEstado = "pendiente";
+        this.tareasFiltradas = this.tareas;
+      }
     )
   }
 
   listarTerminado(): void {
-    this.tareasService.getTerminado().subscribe(
+    const idUsuario = localStorage.getItem("idUsuario");
+    this.tareasService.getTerminadoPorUsuario(Number(idUsuario)).subscribe(
       response => {
         this.tareas = response
         this.tareaEstado = "terminado"
@@ -65,19 +79,9 @@ export class HomeComponent implements OnInit {
     )
   }
 
-  listarPendientes(): void {
-    this.tareasService.getPendiente().subscribe(
-      response => {
-        this.tareas = response;
-        this.tareaEstado = "pendiente"
-        this.tareasFiltradas = this.tareas;
-      }
-    )
-    this.usuariosService.getUsuarios().subscribe(response => this.usuarios = response);
-  }
-
-  listarTotal():void{
-    this.tareasService.getTareas().subscribe(
+  listarTotal(): void {
+    const idUsuario = localStorage.getItem("idUsuario");
+    this.tareasService.getTotalPorUsuario(Number(idUsuario)).subscribe(
       response => {
         this.tareas = response
         this.tareaEstado = "tarea"
@@ -86,8 +90,46 @@ export class HomeComponent implements OnInit {
     )
   }
 
+  buscarTarea(): void {
+    const termino = this.busquedaInput.toLowerCase();
+    this.tareasFiltradas = this.tareas.filter(
+      response => response.nombreTarea.toLowerCase().includes(termino)
+    )
+  }
+
+  // listarTerminado(): void {
+  //   this.tareasService.getTerminado().subscribe(
+  //     response => {
+  //       this.tareas = response
+  //       this.tareaEstado = "terminado"
+  //       this.tareasFiltradas = this.tareas;
+  //     }
+  //   )
+  // }
+
+  // listarPendientes(): void {
+  //   this.tareasService.getPendiente().subscribe(
+  //     response => {
+  //       this.tareas = response;
+  //       this.tareaEstado = "pendiente"
+  //       this.tareasFiltradas = this.tareas;
+  //     }
+  //   )
+  // }
+
+  // listarTotal(): void {
+  //   this.tareasService.getTareas().subscribe(
+  //     response => {
+  //       this.tareas = response
+  //       this.tareaEstado = "tarea"
+  //       this.tareasFiltradas = this.tareas;
+  //     }
+  //   )
+  // }
+
   listarTareas(): void {
-    this.tareasService.getPendiente().subscribe(
+    const idUsuario = localStorage.getItem("idUsuario");
+    this.tareasService.getPendientePorUsuario(Number(idUsuario)).subscribe(
       response => {
         this.tareas = response
         this.tareasFiltradas = this.tareas;
@@ -103,7 +145,7 @@ export class HomeComponent implements OnInit {
     this.tareasService.getContadorTerminado().subscribe(response => this.contadorTerminado = response);
   }
 
-  listarContadorTotales():void{
+  listarContadorTotales(): void {
     this.tareasService.getContadorTotales().subscribe(response => this.contadorTotales = response);
   }
 

@@ -9,8 +9,8 @@ import { TareaRequest } from '../models/tareas/tarea-request';
 })
 export class TareasService {
 
-  //private tareasApi:string = "http://localhost:8080/v1/api/tareas";
-  private tareasApi:string = "http://192.168.1.10:8080/v1/api/tareas";
+  private tareasApi:string = "http://localhost:8080/v1/api/tareas";
+  //private tareasApi:string = "http://192.168.1.10:8080/v1/api/tareas";
 
   constructor(private http:HttpClient) { }
 
@@ -56,5 +56,17 @@ export class TareasService {
 
   getTerminado():Observable<TareaResponse[]>{
     return this.http.get<TareaResponse[]>(`${this.tareasApi}/listado-terminado`);
+  }
+
+  getTerminadoPorUsuario(idUsuario:number):Observable<TareaResponse[]>{
+    return this.http.get<TareaResponse[]>(`${this.tareasApi}/listado-terminado/usuario/${idUsuario}`);
+  }
+
+  getPendientePorUsuario(idUsuario:number):Observable<TareaResponse[]>{
+    return this.http.get<TareaResponse[]>(`${this.tareasApi}/listado-pendiente/usuario/${idUsuario}`);
+  }
+
+  getTotalPorUsuario(idUsuario:number):Observable<TareaResponse[]>{
+    return this.http.get<TareaResponse[]>(`${this.tareasApi}/listado-total/usuario/${idUsuario}`);
   }
 }
