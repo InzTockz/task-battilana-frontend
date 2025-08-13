@@ -69,4 +69,16 @@ export class TareasService {
   getTotalPorUsuario(idUsuario:number):Observable<TareaResponse[]>{
     return this.http.get<TareaResponse[]>(`${this.tareasApi}/listado-total/usuario/${idUsuario}`);
   }
+
+  getContadorPendientePorUsuario(idUsuario:number):Observable<number>{
+    return this.http.get<number>(`${this.tareasApi}/contador-pendientes/usuario/${idUsuario}`)
+  }
+
+  getContadorCompletadoPorUsuario(idUsuario:number):Observable<number>{
+    return this.http.get<number>(`${this.tareasApi}/contador-completado/usuario/${idUsuario}`)
+  }
+
+  getContadorTotalPorUsuario(idUsuario:number):Observable<number>{
+    return this.http.get<number>(`${this.tareasApi}/contador-total/usuario/${idUsuario}`)
+  }
 }

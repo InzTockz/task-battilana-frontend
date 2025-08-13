@@ -12,10 +12,9 @@
                     </div>
                 </div>
 
-                <select class="select w-full max-w-xs border-base-content" [(ngModel)]="showTaskLogin" (change)="userChange($event)">
+                <select class="select w-full max-w-64 border-base-content" [(ngModel)]="showTaskLogin" (change)="userChange($event)">
                     <option value="0" disabled selected>Seleccione</option>
-                    <option value="1">Fredy Hurtado</option>
-                    <option value="2">Jhony Hurtado</option>
+                    <option *ngFor="let u of usuarios" [value]="u.idUsuarios">{{u.nombres}}</option>
                     <!--<option value="3">Fredy Hurtado</option> -->
                 </select>
                 <button onclick="modalRegistro.showModal()"
@@ -97,7 +96,7 @@
                 <div (click)="listarTotal()" [ngClass]="tareaEstado == 'tarea' ? 'bg-blue-400':''"
                     class="card bg-base-100 shadow-2xl rounded-lg border border-base-content md:w-[30%] w-full bg-blue-300">
                     <div class="card-body text-black">
-                        <h3 class="text-left font-semibold text-base flex justify-between">Tareas totales
+                        <h3 class="text-left font-semibold text-base flex justify-between">Total de tareas
                             <span-lucide [img]="icons.stadistic"></span-lucide>
                         </h3>
                         <p class="text-left font-bold text-xl">{{contadorTotales}}</p>
@@ -108,6 +107,9 @@
         </div>
         <div class="mt-5">
             <h1 class="text-2xl font-semibold mb-5">Proyectos</h1>
+            <div class="flex flex-row justify-center mt-20">
+                <img src="vaca-duda.png">
+            </div>
             <div class="flex flex-col gap-5">
                 <div class="card bg-base-100 w-full shadow-2xl rounded-lg border border-base-content"
                     *ngFor="let t of tareasFiltradas">

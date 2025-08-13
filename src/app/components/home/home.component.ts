@@ -44,9 +44,12 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.listarTareas();
-    this.listarContadorPendiente();
-    this.listarContadorTerminado();
-    this.listarContadorTotales();
+    // this.listarContadorPendiente();
+    // this.listarContadorTerminado();
+    // this.listarContadorTotales();
+    this.listarContadorPendientePorUsuario();
+    this.listarContadorCompletadoPorUsuario();
+    this.listarContadorTotalPorUsuario();
     this.usuariosService.getUsuarios().subscribe(response => this.usuarios = response);
     this.showTaskLogin = localStorage.getItem("idUsuario") != null ? localStorage.getItem("idUsuario") : "0";
   }
@@ -55,6 +58,9 @@ export class HomeComponent implements OnInit {
     const idUsuario = user.target as HTMLInputElement;
     localStorage.setItem("idUsuario", idUsuario.value);
     this.listarTareas();
+    this.listarContadorPendientePorUsuario();
+    this.listarContadorCompletadoPorUsuario();
+    this.listarContadorTotalPorUsuario();
   }
 
   listarPendientePorUsuario(): void {
@@ -131,30 +137,55 @@ export class HomeComponent implements OnInit {
     const idUsuario = localStorage.getItem("idUsuario");
     this.tareasService.getPendientePorUsuario(Number(idUsuario)).subscribe(
       response => {
-        this.tareas = response
+        this.tareas = response;
+        this.tareaEstado = "pendiente";
         this.tareasFiltradas = this.tareas;
       }
     )
   }
 
-  listarContadorPendiente(): void {
-    this.tareasService.getContadorPendiente().subscribe(response => this.contadorPendiente = response);
+  // listarContadorPendiente(): void {
+  //   this.tareasService.getContadorPendiente().subscribe(response => this.contadorPendiente = response);
+  // }
+
+  // listarContadorTerminado(): void {
+  //   this.tareasService.getContadorTerminado().subscribe(response => this.contadorTerminado = response);
+  // }
+
+  // listarContadorTotales(): void {
+  //   this.tareasService.getContadorTotales().subscribe(response => this.contadorTotales = response);
+  // }
+
+  listarContadorPendientePorUsuario(): void {
+    const idUsuario = localStorage.getItem("idUsuario");
+    this.tareasService.getContadorPendientePorUsuario(Number(idUsuario)).subscribe(
+      pendiente => this.contadorPendiente = pendiente
+    )
   }
 
-  listarContadorTerminado(): void {
-    this.tareasService.getContadorTerminado().subscribe(response => this.contadorTerminado = response);
+  listarContadorCompletadoPorUsuario(): void {
+    const idUsuario = localStorage.getItem("idUsuario");
+    this.tareasService.getContadorCompletadoPorUsuario(Number(idUsuario)).subscribe(
+      completado => this.contadorTerminado = completado
+    )
   }
 
-  listarContadorTotales(): void {
-    this.tareasService.getContadorTotales().subscribe(response => this.contadorTotales = response);
+  listarContadorTotalPorUsuario(): void {
+    const idUsuario = localStorage.getItem("idUsuario");
+    this.tareasService.getContadorTotalPorUsuario(Number(idUsuario)).subscribe(
+      total => this.contadorTotales = total
+    )
   }
 
   registrarTarea(): void {
     this.tareasService.postTareas(this.tarea).subscribe(
       () => {
         this.listarTareas()
-        this.listarContadorPendiente();
-        this.listarContadorTerminado();
+        // this.listarContadorPendiente();
+        // this.listarContadorTerminado();
+        this.listarContadorPendientePorUsuario();
+        this.listarContadorCompletadoPorUsuario();
+        this.listarContadorTotalPorUsuario();
         this.modalRegistro.nativeElement.close();
         this.tarea = new TareaRequest();
         this.toastr.success('Tarea registrada');
@@ -177,8 +208,8 @@ export class HomeComponent implements OnInit {
           () => {
             this.toastr.success('Tarea actualizada');
             this.listarTareas()
-            this.listarContadorPendiente();
-            this.listarContadorTerminado();
+            this.listarContadorPendientePorUsuario();
+            this.listarContadorCompletadoPorUsuario();
           }
         )
       }
@@ -200,8 +231,8 @@ export class HomeComponent implements OnInit {
         this.tareasService.deleteTarea(idTarea).subscribe(
           () => {
             this.listarTareas();
-            this.listarContadorPendiente();
-            this.listarContadorTerminado();
+            this.listarContadorPendientePorUsuario();
+            this.listarContadorCompletadoPorUsuario();
             Swal.fire({
               title: "Eliminado!",
               text: "La tarea ha sido eliminada.",
