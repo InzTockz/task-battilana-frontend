@@ -8,7 +8,6 @@ import { TareasService } from '../../services/tareas.service';
 import { UsuariosService } from '../../services/usuarios.service';
 import { FormsModule } from '@angular/forms'
 import { ToastrService } from 'ngx-toastr';
-import { Estados } from '../../models/tareas/estados';
 import Swal from 'sweetalert2';
 
 @Component({
