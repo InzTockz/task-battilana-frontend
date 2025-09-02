@@ -1,9 +1,10 @@
+<app-navbar></app-navbar>
 <div class="flex flex-row mb-10 justify-center">
     <div class="w-[85%] flex flex-col justify-center gap-5 mt-5">
         <div class="flex flex-row gap-3 items-center">
             <div class="flex flex-col gap-3 items-center w-full relative sm:flex-row">
                 <div class="flex w-full items-center gap-3 ">
-                    <img src="logito-battilanience.jpeg" width="50px" height="50px">
+
                     <div class="relative w-full sm:text-left">
                         <lucide-icon class="absolute left-1 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 z-10"
                             [name]="icons.search"></lucide-icon>
@@ -12,11 +13,10 @@
                     </div>
                 </div>
 
-                <select class="select w-full max-w-64 border-base-content" [(ngModel)]="showTaskLogin" (change)="userChange($event)">
+                <!-- <select class="select w-full max-w-64 border-base-content" [(ngModel)]="showTaskLogin" (change)="userChange($event)">
                     <option value="0" disabled selected>Seleccione</option>
                     <option *ngFor="let u of usuarios" [value]="u.idUsuarios">{{u.nombres}}</option>
-                    <!--<option value="3">Fredy Hurtado</option> -->
-                </select>
+                </select> -->
                 <button onclick="modalRegistro.showModal()"
                     class=" btn rounded-lg border border-base-content"><lucide-icon [img]="icons.plus"></lucide-icon>
                     Nueva tarea</button>
@@ -50,14 +50,14 @@
                                 <input type="date" [(ngModel)]="tarea.fechaFin" class="border rounded-md p-2">
                             </div>
                         </div>
-                        <div class="grid gap-2">
+                        <!-- <div class="grid gap-2">
                             <label class="text-sm font-medium">Usuario</label>
                             <select [(ngModel)]="tarea.idUsuariosEntity"
                                 class="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1">
                                 <option value="-1">Seleccione</option>
-                                <option *ngFor="let u of usuarios" [value]="u.idUsuarios">{{u.nombres}}</option>
+                                <option *ngFor="let u of usuarios" [value]="u.">{{u.nombres}}</option>
                             </select>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="modal-action">
                         <button class="btn btn-accent" (click)="closeModal()">Cancelar</button>

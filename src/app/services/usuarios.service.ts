@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UsuariosResponse } from '../models/usuarios/usuarios-response';
 import { Observable } from 'rxjs';
+import { UsuariosRequest } from '../models/usuarios/usuarios-request';
 
 @Injectable({
   providedIn: 'root'
@@ -15,5 +16,9 @@ export class UsuariosService {
 
   getUsuarios():Observable<UsuariosResponse[]>{
     return this.http.get<UsuariosResponse[]>(`${this.usuarioApi}/listar`);
+  }
+
+  postUsuarios(usuario:UsuariosRequest):Observable<UsuariosResponse>{
+    return this.http.post<UsuariosResponse>(`${this.usuarioApi}/registrar`, usuario)
   }
 }

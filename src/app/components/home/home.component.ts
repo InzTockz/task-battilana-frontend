@@ -9,10 +9,11 @@ import { UsuariosService } from '../../services/usuarios.service';
 import { FormsModule } from '@angular/forms'
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
+import { NavbarComponent } from "../navbar/navbar.component";
 
 @Component({
   selector: 'app-home',
-  imports: [LucideAngularModule, CommonModule, FormsModule],
+  imports: [LucideAngularModule, CommonModule, FormsModule, NavbarComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
