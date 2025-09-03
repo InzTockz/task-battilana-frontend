@@ -1,0 +1,55 @@
+<div [ngClass]="{'w-20': !isLeftNavOpen(), 'w-72': isLeftNavOpen()}" class="flex flex-col w-72 py-6 px-4 bg-dark-pruple h-screen relative">
+    <div class="logo h-[40px] flex items-center gap-x-2 mb-10">
+        <fa-icon [icon]="faChalkboardTeacher" size="xl"
+        class="bg-amber-300 w-fit text-dark-purple p-2 rounded-lg"
+        ></fa-icon>
+        <span class="text-white text-2xl font-bold">TutorHub</span>
+    </div>
+    <fa-icon (click)="isLeftNavOpen.set(!isLeftNavOpen())"
+     class="absolute text-dark-purple -right-4 top-8 h-8 w-8 bg-white flex items-center 
+    justify-center rounded-full border border-black" [icon]="faArrowLeft" size="lg"></fa-icon>
+    <div class="nav-items flex flex-col gap-y-2">
+        <div class="nav-item flex items-center gap-x-2 p-4 rounded-lg hover:bg-slate-600 
+        cursor-pointer">
+            <fa-icon [icon]="faTachometerAlt" class="text-white" size="lg"></fa-icon>
+            <span class="text-white text-base font-medium">Dashboard</span>
+        </div>
+        <div class="nav-item flex items-center gap-x-2 p-4 rounded-lg hover:bg-slate-600 
+        cursor-pointer">
+            <fa-icon [icon]="faTachometerAlt" class="text-white" size="lg"></fa-icon>
+            <span class="text-white text-base font-medium">Dashboard</span>
+        </div>
+        <div class="nav-item flex items-center gap-x-2 p-4 rounded-lg hover:bg-slate-600 
+        cursor-pointer">
+            <fa-icon [icon]="faTachometerAlt" class="text-white" size="lg"></fa-icon>
+            <span class="text-white text-base font-medium">Dashboard</span>
+        </div>
+        <div class="nav-item flex items-center gap-x-2 p-4 rounded-lg hover:bg-slate-600 
+        cursor-pointer">
+            <fa-icon [icon]="faTachometerAlt" class="text-white" size="lg"></fa-icon>
+            <span class="text-white text-base font-medium">Dashboard</span>
+        </div>
+    </div>
+</div>
+
+<!--Hola
+<div class="flex">
+    <div class="h-screen w-64 bg-gray-800 text-white fixed left-0 top-0 p-4">
+        <h2 class="text-2x1 font-bold mb-6">Menu</h2>
+        <ul class="space-y-4">
+            <li>
+                <a class="block py-2 px-3 rounded hover:bg-gray-700">Home</a>
+            </li>
+            <li>
+                <a class="block py-2 px-3 rounded hover:bg-gray-700">Perfil</a>
+            </li>
+            <li>
+                <a class="block py-2 px-3 rounded hover:bg-gray-700">Configuracion</a>
+            </li>
+        </ul>
+    </div>
+    <div class="ml-64 p-6 w-full">
+        <app-home></app-home>
+    </div>
+</div>
+-->
