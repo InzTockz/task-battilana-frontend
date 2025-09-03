@@ -9,6 +9,7 @@ import { UsuariosService } from '../../services/usuarios.service';
 import { FormsModule } from '@angular/forms'
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
+import { LoginService } from '../../services/login.service';
 
 @Component({
   selector: 'app-home',
@@ -33,19 +34,20 @@ export class HomeComponent implements OnInit {
   contadorPendiente!: number;
   contadorTerminado!: number;
   contadorTotales!: number;
+
   tarea: TareaRequest = new TareaRequest;
+
   fechaInicio: string = "";
   fechaFin: string = "";
 
   showTaskLogin: any = "0";
 
-  constructor(private tareasService: TareasService, private usuariosService: UsuariosService, private toastr: ToastrService) { }
+  constructor(private tareasService: TareasService, private usuariosService: UsuariosService, private toastr: ToastrService,
+    private loginService:LoginService
+  ) { }
 
   ngOnInit(): void {
     this.listarTareas();
-    // this.listarContadorPendiente();
-    // this.listarContadorTerminado();
-    // this.listarContadorTotales();
     this.listarContadorPendientePorUsuario();
     this.listarContadorCompletadoPorUsuario();
     this.listarContadorTotalPorUsuario();
@@ -63,7 +65,7 @@ export class HomeComponent implements OnInit {
   }
 
   listarPendientePorUsuario(): void {
-    const idUsuario = localStorage.getItem("idUsuario");
+    const idUsuario = this.loginService.getToken('userToken').idUsuarios;
     this.tareasService.getPendientePorUsuario(Number(idUsuario)).subscribe(
       response => {
         this.tareas = response;
@@ -74,7 +76,7 @@ export class HomeComponent implements OnInit {
   }
 
   listarTerminado(): void {
-    const idUsuario = localStorage.getItem("idUsuario");
+    const idUsuario = this.loginService.getToken('userToken').idUsuarios;
     this.tareasService.getTerminadoPorUsuario(Number(idUsuario)).subscribe(
       response => {
         this.tareas = response
@@ -85,11 +87,22 @@ export class HomeComponent implements OnInit {
   }
 
   listarTotal(): void {
-    const idUsuario = localStorage.getItem("idUsuario");
+    const idUsuario = this.loginService.getToken('userToken').idUsuarios;
     this.tareasService.getTotalPorUsuario(Number(idUsuario)).subscribe(
       response => {
         this.tareas = response
         this.tareaEstado = "tarea"
+        this.tareasFiltradas = this.tareas;
+      }
+    )
+  }
+
+    listarTareas(): void {
+    const idUsuario = this.loginService.getToken('userToken').idUsuarios;
+    this.tareasService.getPendientePorUsuario(Number(idUsuario)).subscribe(
+      response => {
+        this.tareas = response;
+        this.tareaEstado = "pendiente";
         this.tareasFiltradas = this.tareas;
       }
     )
@@ -102,86 +115,37 @@ export class HomeComponent implements OnInit {
     )
   }
 
-  // listarTerminado(): void {
-  //   this.tareasService.getTerminado().subscribe(
-  //     response => {
-  //       this.tareas = response
-  //       this.tareaEstado = "terminado"
-  //       this.tareasFiltradas = this.tareas;
-  //     }
-  //   )
-  // }
-
-  // listarPendientes(): void {
-  //   this.tareasService.getPendiente().subscribe(
-  //     response => {
-  //       this.tareas = response;
-  //       this.tareaEstado = "pendiente"
-  //       this.tareasFiltradas = this.tareas;
-  //     }
-  //   )
-  // }
-
-  // listarTotal(): void {
-  //   this.tareasService.getTareas().subscribe(
-  //     response => {
-  //       this.tareas = response
-  //       this.tareaEstado = "tarea"
-  //       this.tareasFiltradas = this.tareas;
-  //     }
-  //   )
-  // }
-
-  listarTareas(): void {
-    const idUsuario = localStorage.getItem("idUsuario");
-    this.tareasService.getPendientePorUsuario(Number(idUsuario)).subscribe(
-      response => {
-        this.tareas = response;
-        this.tareaEstado = "pendiente";
-        this.tareasFiltradas = this.tareas;
-      }
-    )
-  }
-
-  // listarContadorPendiente(): void {
-  //   this.tareasService.getContadorPendiente().subscribe(response => this.contadorPendiente = response);
-  // }
-
-  // listarContadorTerminado(): void {
-  //   this.tareasService.getContadorTerminado().subscribe(response => this.contadorTerminado = response);
-  // }
-
-  // listarContadorTotales(): void {
-  //   this.tareasService.getContadorTotales().subscribe(response => this.contadorTotales = response);
-  // }
 
   listarContadorPendientePorUsuario(): void {
-    const idUsuario = localStorage.getItem("idUsuario");
+    const idUsuario = this.loginService.getToken('userToken').idUsuarios;
     this.tareasService.getContadorPendientePorUsuario(Number(idUsuario)).subscribe(
       pendiente => this.contadorPendiente = pendiente
     )
   }
 
   listarContadorCompletadoPorUsuario(): void {
-    const idUsuario = localStorage.getItem("idUsuario");
+    const idUsuario = this.loginService.getToken('userToken').idUsuarios;
     this.tareasService.getContadorCompletadoPorUsuario(Number(idUsuario)).subscribe(
       completado => this.contadorTerminado = completado
     )
   }
 
   listarContadorTotalPorUsuario(): void {
-    const idUsuario = localStorage.getItem("idUsuario");
+    const idUsuario = this.loginService.getToken('userToken').idUsuarios;
     this.tareasService.getContadorTotalPorUsuario(Number(idUsuario)).subscribe(
       total => this.contadorTotales = total
     )
   }
 
   registrarTarea(): void {
+
+    const idUsuario = this.loginService.getToken('userToken').idUsuarios;
+
+    this.tarea.idUsuariosEntity = idUsuario;
+
     this.tareasService.postTareas(this.tarea).subscribe(
       () => {
         this.listarTareas()
-        // this.listarContadorPendiente();
-        // this.listarContadorTerminado();
         this.listarContadorPendientePorUsuario();
         this.listarContadorCompletadoPorUsuario();
         this.listarContadorTotalPorUsuario();
@@ -213,7 +177,6 @@ export class HomeComponent implements OnInit {
         )
       }
     });
-
   }
 
   eliminarTarea(idTarea: number): void {

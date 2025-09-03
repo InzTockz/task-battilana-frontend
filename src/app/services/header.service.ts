@@ -10,7 +10,7 @@ export class HeaderService {
   constructor(private login:LoginService) { }
 
   getHeader(){
-    const token = this.login.getToken('usuario').token;
+    const token = this.login.getToken('userToken').token;
 
     return new HttpHeaders({
       'Authorization': `${token}`
