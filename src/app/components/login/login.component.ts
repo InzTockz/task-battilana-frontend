@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../../services/login.service';
-import { UsuariosRequest } from '../../models/usuarios/usuarios-request';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from "@angular/forms";
 import { LoginRequest } from '../../models/login/login-request';
-import { Route, Router } from '@angular/router';
+import { Route, Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })

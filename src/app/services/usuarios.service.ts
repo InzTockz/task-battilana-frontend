@@ -20,6 +20,6 @@ export class UsuariosService {
   }
 
   postUsuarios(usuario:UsuariosRequest):Observable<UsuariosResponse>{
-    return this.http.post<UsuariosResponse>(`${this.usuarioApi}/registrar`, usuario, {headers: this.header.getHeader()})
+    return this.http.post<UsuariosResponse>(`${this.usuarioApi}/registrar`, usuario)
   }
 }

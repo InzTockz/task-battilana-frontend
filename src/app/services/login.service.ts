@@ -31,7 +31,7 @@ export class LoginService {
     }
   }
 
-  logout(){
+  logout():void{
     localStorage.clear();
   }
 }

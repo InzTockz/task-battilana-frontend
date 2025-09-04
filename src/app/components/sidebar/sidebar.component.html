@@ -21,7 +21,7 @@
             </div>
             }
         </div>
-        <div class="nav-item flex items-center gap-x-2 p-4 rounded-lg hover:bg-slate-600 
+        <div (click)="logoutUser()" class="nav-item flex items-center gap-x-2 p-4 rounded-lg hover:bg-slate-600 
         cursor-pointer" [ngClass]="{'justify-center': !isLeftNavOpen()}">
             <fa-icon [icon]="navLogout.icon" class="text-white" size="lg"></fa-icon>
             <span [ngClass]="{'hidden': !isLeftNavOpen()}"
