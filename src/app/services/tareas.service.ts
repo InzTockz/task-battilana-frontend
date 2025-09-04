@@ -10,8 +10,8 @@ import { HeaderService } from './header.service';
 })
 export class TareasService {
 
-  private tareasApi:string = "http://localhost:8080/v1/api/tareas";
-  //private tareasApi:string = "http://192.168.1.10:8080/v1/api/tareas";
+  //private tareasApi:string = "http://192.168.1.139:8080/v1/api/tareas";
+  private tareasApi:string = "http://192.168.1.10:8080/v1/api/tareas";
 
   constructor(private http:HttpClient, private header:HeaderService) { }
 

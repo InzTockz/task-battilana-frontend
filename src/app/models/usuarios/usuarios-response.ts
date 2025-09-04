@@ -5,4 +5,5 @@ export class UsuariosResponse {
     correo!:string;
     estado!:boolean;
     roles!:string;
+    registerStatus!:string;
 }

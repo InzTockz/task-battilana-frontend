@@ -12,21 +12,27 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
-export class RegisterComponent implements OnInit{
+export class RegisterComponent implements OnInit {
 
-  usuarioRequest:UsuariosRequest = new UsuariosRequest();
+  usuarioRequest: UsuariosRequest = new UsuariosRequest();
 
-  constructor(private usuarioService:UsuariosService, private toastr:ToastrService, private router:Router){}
+  constructor(private usuarioService: UsuariosService, private toastr: ToastrService, private router: Router) { }
 
-  ngOnInit(){
+  ngOnInit() {
 
   }
 
-  postRegistro():void{
+  postRegistro(): void {
     this.usuarioService.postUsuarios(this.usuarioRequest).subscribe(
-      () => {
-        this.router.navigate(['/login'])
-        this.toastr.success('Tu registro ha sido completo, puedes iniciar sesión', 'Registrado')
+      response => {
+
+        if (response.registerStatus != 'user_registered') {
+          this.router.navigate(['/login'])
+          this.toastr.success('Tu registro ha sido completo, puedes iniciar sesión', 'Registrado')
+        } else {
+          this.router.navigate(['/register'])
+          this.toastr.warning('El usuario se encuentra registrado', 'Mensaje informativo')
+        }
       }
     )
   }
