@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit {
   @ViewChild('modalRegistro') modalRegistro!: ElementRef<HTMLDialogElement>;
 
   tareas: TareaResponse[] = [];
-  tareasFiltradas!: TareaResponse[];
+  tareasFiltradas: TareaResponse[] = [];
   busquedaInput: string = "";
   tareaEstado: string = "";
   usuarios: UsuariosResponse[] = [];
@@ -47,17 +47,6 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.listarTareas();
-    this.listarContadorPendientePorUsuario();
-    this.listarContadorCompletadoPorUsuario();
-    this.listarContadorTotalPorUsuario();
-    this.usuariosService.getUsuarios().subscribe(response => this.usuarios = response);
-    this.showTaskLogin = localStorage.getItem("idUsuario") != null ? localStorage.getItem("idUsuario") : "0";
-  }
-
-  userChange(user: Event): void {
-    const idUsuario = user.target as HTMLInputElement;
-    localStorage.setItem("idUsuario", idUsuario.value);
     this.listarTareas();
     this.listarContadorPendientePorUsuario();
     this.listarContadorCompletadoPorUsuario();

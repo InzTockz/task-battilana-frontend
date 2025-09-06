@@ -4,6 +4,8 @@ import { HomeComponent } from './components/home/home.component';
 import { authGuard } from './guards/auth.guard';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { RegisterComponent } from './components/register/register.component';
+import { TaskComponent } from './components/task/task.component';
+import { RegisterAdminComponent } from './components/admin/register-admin/register-admin.component';
 
 export const routes: Routes = [
 
@@ -14,7 +16,9 @@ export const routes: Routes = [
         component: SidebarComponent,
         canActivate:[authGuard],
         children: [
-            { path: '', component:  HomeComponent, canActivate:[authGuard]}
+            { path: '', component:  HomeComponent, canActivate:[authGuard]},
+            { path: 'manager-task', component: TaskComponent, canActivate:[authGuard]},
+            { path: 'register-admin', component: RegisterAdminComponent, canActivate:[authGuard]}
         ]
     },
     {

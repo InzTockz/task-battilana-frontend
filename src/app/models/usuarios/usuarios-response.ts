@@ -1,6 +1,6 @@
 export class UsuariosResponse {
 
-    //idUsuarios!:number;
+    idUsuarios!:number;
     nombres!:string;
     correo!:string;
     estado!:boolean;

@@ -9,8 +9,8 @@ import { LoginResponse } from '../models/login/login-response';
 })
 export class LoginService {
 
-  private loginApi:string = "http://192.168.1.10:8080/v1/api/usuario";
-  //private loginApi:string = "http://192.168.1.139:8080/v1/api/usuario";
+  //private loginApi:string = "http://192.168.1.10:8080/v1/api/usuario";
+  private loginApi:string = "http://192.168.1.139:8080/v1/api/usuario";
 
   constructor(private http:HttpClient) { }
 
@@ -34,5 +34,16 @@ export class LoginService {
 
   logout():void{
     localStorage.clear();
+  }
+
+  isTokenExpired():boolean{
+    const token = this.getToken("userToken")
+    if(!token){
+      return true;
+    }
+
+    const payload = JSON.parse(atob(token.token.split('.')[1]));
+    const now = Math.floor(Date.now() / 1000);
+    return payload.exp < now;
   }
 }

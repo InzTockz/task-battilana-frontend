@@ -5,13 +5,13 @@ import { faTachometerAlt, faChalkboardTeacher, faArrowLeft, faUserGraduate, faBo
   faDoorOpen
  } from '@fortawesome/free-solid-svg-icons'
 import { SideNavItem } from '../../interfaces/side-nav.interface';
-import { Router, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterModule, RouterOutlet } from '@angular/router';
 import { LoginService } from '../../services/login.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [CommonModule, FontAwesomeModule, RouterOutlet],
+  imports: [CommonModule, FontAwesomeModule, RouterOutlet, RouterModule],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css'
 })
@@ -31,19 +31,19 @@ export class SidebarComponent implements OnInit{
     {
       icon: this.faTachometerAlt,
       label: 'Dashboard',
-      route: '/dashboard',
+      route: '',
       isActive: true
     },
     {
       icon: this.faFile,
       label: 'Tareas por Usuario',
-      route: '/courses',
+      route: '/manager-task',
       isActive: false
     },
     {
       icon: this.faUserPlus,
       label: 'Registrar Usuario',
-      route: '/students',
+      route: 'register-admin',
       isActive: false
     }
   ]

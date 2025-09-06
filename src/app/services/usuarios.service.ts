@@ -10,8 +10,8 @@ import { HeaderService } from './header.service';
 })
 export class UsuariosService {
 
-  private usuarioApi:string = "http://192.168.1.10:8080/v1/api/usuario";
-  //private usuarioApi:string = "http://192.168.1.139:8080/v1/api/usuario";
+  //private usuarioApi:string = "http://192.168.1.10:8080/v1/api/usuario";
+  private usuarioApi:string = "http://192.168.1.139:8080/v1/api/usuario";
 
   constructor(private http:HttpClient, private header:HeaderService) { }
 
@@ -20,6 +20,6 @@ export class UsuariosService {
   }
 
   postUsuarios(usuario:UsuariosRequest):Observable<UsuariosResponse>{
-    return this.http.post<UsuariosResponse>(`${this.usuarioApi}/registrar`, usuario)
+    return this.http.post<UsuariosResponse>(`${this.usuarioApi}/registrar`, usuario, {headers: this.header.getHeader()})
   }
 }

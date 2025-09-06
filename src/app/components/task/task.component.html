@@ -1,27 +1,27 @@
-<!-- 
-<div class="p-8">
+<div class="p-10">
     <div class="flex flex-col justify-center gap-4">
         <div class="flex flex-row gap-3 items-center">
-            <div class="flex flex-col items-center w-full relative sm:flex-row">
+            <div class="flex flex-col items-center w-full relative sm:flex-row gap-4">
                 <div class="flex w-full items-center gap-3 ">
                     <div class="relative w-full sm:text-left">
                         <lucide-icon class="absolute left-1 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 z-10"
                             [name]="icons.search"></lucide-icon>
                         <input class="input w-[80%] pl-9 border border-black" placeholder="Buscar tarea"
-                        [(ngModel)]="busquedaInput" (input)="buscarTarea()">
+                            [(ngModel)]="busquedaInput" (input)="buscarTarea()">
                     </div>
-                </div> -->
+                </div>
 
-                <!-- <select class="select w-full max-w-64 border-base-content" [(ngModel)]="showTaskLogin" (change)="userChange($event)">
+                <select class="select w-full max-w-64 border-base-content" [(ngModel)]="showTaskLogin"
+                    (change)="userChange($event)">
                     <option value="0" disabled selected>Seleccione</option>
                     <option *ngFor="let u of usuarios" [value]="u.idUsuarios">{{u.nombres}}</option>
-                </select> -->
-                <!-- <button onclick="modalRegistro.showModal()"
+                </select>
+                <button onclick="modalRegistro.showModal()"
                     class=" btn rounded-lg border border-base-content"><lucide-icon [img]="icons.plus"></lucide-icon>
                     Nueva tarea</button>
-            </div> -->
+            </div>
             <!-- MODAL-->
-            <!-- <dialog #modalRegistro id="modalRegistro" class="modal">
+            <dialog #modalRegistro id="modalRegistro" class="modal">
                 <div class="modal-box max-h-screen overflow-y-auto">
                     <div class="flex flex-col space-y-1.5 text-center sm:text-left">
                         <h3 class="tracking-tight text-xl font-semibold text-purple-700">Registro de Tarea</h3>
@@ -48,16 +48,16 @@
                                 <label class="text-sm font-medium">Fecha de Fin</label>
                                 <input type="date" [(ngModel)]="tarea.fechaFin" class="border rounded-md p-2">
                             </div>
-                        </div> -->
-                        <!-- <div class="grid gap-2">
+                        </div>
+                        <div class="grid gap-2">
                             <label class="text-sm font-medium">Usuario</label>
                             <select [(ngModel)]="tarea.idUsuariosEntity"
                                 class="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1">
                                 <option value="-1">Seleccione</option>
-                                <option *ngFor="let u of usuarios" [value]="u.">{{u.nombres}}</option>
+                                <option *ngFor="let u of usuarios">{{u.nombres}}</option>
                             </select>
-                        </div> -->
-                    <!-- </div>
+                        </div>
+                    </div>
                     <div class="modal-action">
                         <button class="btn btn-accent" (click)="closeModal()">Cancelar</button>
                         <button class="btn btn-primary" (click)="registrarTarea()">Registrar</button>
@@ -82,7 +82,7 @@
                         <div class="divider -mt-1 -mb-1"></div>
                     </div>
                 </div>
-                <div (click)="listarTerminado()" [ngClass]="tareaEstado == 'terminado' ? 'bg-green-400':''"
+                <div (click)="listarTerminadoPorUsuario()" [ngClass]="tareaEstado == 'terminado' ? 'bg-green-400':''"
                     class="card bg-base-100 shadow-2xl rounded-lg border border-base-content md:w-[30%] w-full bg-green-300">
                     <div class="card-body text-black">
                         <h3 class="text-left font-semibold text-base flex justify-between">Tareas completadas
@@ -92,7 +92,7 @@
                         <div class="divider -mt-1 -mb-1"></div>
                     </div>
                 </div>
-                <div (click)="listarTotal()" [ngClass]="tareaEstado == 'tarea' ? 'bg-blue-400':''"
+                <div (click)="listarTotalPorUsuario()" [ngClass]="tareaEstado == 'tarea' ? 'bg-blue-400':''"
                     class="card bg-base-100 shadow-2xl rounded-lg border border-base-content md:w-[30%] w-full bg-blue-300">
                     <div class="card-body text-black">
                         <h3 class="text-left font-semibold text-base flex justify-between">Total de tareas
@@ -132,8 +132,8 @@
                                 <p>{{t.descripcion}}</p>
                             </div>
                             <div *ngIf="t.estado === 'PENDIENTE'" class="flex flex-row">
-                                <button (click)="actualizarEstado(t.idTarea)" class=><lucide-icon class="text-green-500 size-8"
-                                        [img]="icons.circleCheck"></lucide-icon></button>
+                                <button (click)="actualizarEstado(t.idTarea)" class=><lucide-icon
+                                        class="text-green-500 size-8" [img]="icons.circleCheck"></lucide-icon></button>
                             </div>
                         </div>
 
@@ -153,4 +153,3 @@
             </div>
         </div>
     </div>
-</div> -->
