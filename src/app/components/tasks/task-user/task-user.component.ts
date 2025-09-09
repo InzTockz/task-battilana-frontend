@@ -1,24 +1,25 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { LucideAngularModule, FileIcon, PanelLeft, Plus, Clock, ChartColumn, Search, CircleCheck, Check, Trash2 } from 'lucide-angular';
-import { TareaResponse } from '../../models/tareas/tarea-response';
-import { UsuariosResponse } from '../../models/usuarios/usuarios-response';
-import { TareaRequest } from '../../models/tareas/tarea-request';
-import { TareasService } from '../../services/tareas.service';
-import { UsuariosService } from '../../services/usuarios.service';
-import { ToastrService } from 'ngx-toastr';
-import { CommonModule } from '@angular/common';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { TareaRequest } from '../../../models/tareas/tarea-request';
 import Swal from 'sweetalert2';
+import { TareasService } from '../../../services/tareas.service';
+import { UsuariosService } from '../../../services/usuarios.service';
+import { ToastrService } from 'ngx-toastr';
+import { ChartColumn, CircleCheck, Clock, FileIcon, PanelLeft, Plus, Search, Trash2, LucideAngularModule } from 'lucide-angular';
+import { TareaResponse } from '../../../models/tareas/tarea-response';
+import { UsuariosResponse } from '../../../models/usuarios/usuarios-response';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-task',
+  selector: 'app-task-user',
   imports: [LucideAngularModule, CommonModule, FormsModule],
-  templateUrl: './task.component.html',
-  styleUrl: './task.component.css'
+  templateUrl: './task-user.component.html',
+  styleUrl: './task-user.component.css'
 })
-export class TaskComponent implements OnInit {
+export class TaskUserComponent {
 
-  readonly icons = {
+  
+    readonly icons = {
     fileIcon: FileIcon, panelLeft: PanelLeft, plus: Plus, clock: Clock, circleCheck: CircleCheck,
     stadistic: ChartColumn, search: Search, trash: Trash2
   }
@@ -37,6 +38,7 @@ export class TaskComponent implements OnInit {
 
   showTaskLogin: any = "0";
   idUsuarioSession:string = localStorage.getItem("idUsuario")!;
+  
   @ViewChild('modalRegistro') modalRegistro!: ElementRef<HTMLDialogElement>;
 
   constructor(private tareasService: TareasService, private usuariosService: UsuariosService, private toastr: ToastrService) { }
@@ -203,5 +205,4 @@ export class TaskComponent implements OnInit {
     this.modalRegistro.nativeElement.close();
     this.tarea = new TareaRequest();
   }
-
 }

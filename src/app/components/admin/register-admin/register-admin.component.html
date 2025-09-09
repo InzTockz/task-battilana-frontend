@@ -1,43 +1,64 @@
-<div class="flex flex-row border border-red-600 h-screen justify-center items-center gap-2">
-    <div class="flex flex-col border border-black p-10 gap-3 justify-center">
-        <div class="flex flex-row gap-4">
-            <div class="flex flex-col">
-                <label class="label label-text">Nombre</label>
-                <input type="text" class="input input-primary input-sm">
+<div class="flex flex-col justify-center items-center p-8 gap-4">
+    <div class="card bg-base-100 border border-black shadow-xl ">
+        <div class="card-body">
+            <form (submit)="onUserRegister()">
+            <div class="flex flex-row gap-4">
+                <div class="flex flex-col lg:w-full">
+                    <label class="label label-text">Nombre</label>
+                    <input type="text" name="Nombre" [(ngModel)]="usuarioRequest.nombres"
+                    class="input input-primary input-sm" placeholder="Nombre">
+                </div>
+                <div class="flex flex-col lg:w-full">
+                    <label class="label label-text">Apellido</label>
+                    <input type="text" [(ngModel)]="usuarioRequest.apellidos" name="Apellido" class="input input-primary input-sm" placeholder="Apellido">
+                </div>
             </div>
             <div class="flex flex-col">
-                <label class="label label-text">Apellido</label>
-                <input type="text" class="input input-primary input-sm">
+                <label class="label label-text">Correo</label>
+                <input type="email" [(ngModel)]="usuarioRequest.correo" name="Correo" class="input input-primary input-sm"
+                    placeholder="correo@battilana.biz">
             </div>
-        </div>
-        <div class="flex flex-col">
-            <label class="label label-text">Correo</label>
-            <input type="email" class="input input-primary input-sm">
-        </div>
-        <div class="flex flex-col">
-            <label class="label label-text">Roles</label>
-            <select class="select select-primary select-sm">
-                <option >Seleccione</option>
-            </select>
-        </div>
-        <div class="flex flex-col">
-            <label class="label label-text">Contraseña</label>
-            <input type="password" class="input input-primary input-sm">
-        </div>
-        <div class="flex flex-row justify-center">
-            <button class="btn btn-primary">Registrar usuario</button>
+            <div class="flex flex-col hidden">
+                <label class="label label-text">Roles</label>
+                <select class="select select-primary select-sm" (change)="onSelectChange($event)">
+                    <option>Seleccione</option>
+                    <option *ngFor="let rol of roles" [value]="rol">
+                        {{rol}}
+                    </option>
+                </select>
+            </div>
+            <div class="flex flex-col">
+                <label class="label label-text">Contraseña</label>
+                <input type="password" name="password" [(ngModel)]="usuarioRequest.password" class="input input-primary input-sm" placeholder="Ingrese su contraseña">
+            </div>
+            <div class="card-actions justify-end mt-3">
+                <button class="btn btn-info">Limpiar formulario</button>
+                <button class="btn btn-primary">Registrar usuario</button>
+            </div>
+            </form>
         </div>
     </div>
-    <div class="flex flex-col border border-black p-10 gap-3">
-        <table class="table table-auto border-black">
-            <tr>
-                <th>Nombres y apellidos</th>
-                <th>Correo</th>
-                <th>Rol</th>
-            </tr>
-            <tr>
-
-            </tr>
+    <div>
+        <table class="table table-cell border-black border-2 rounded-xl shadow-xl">
+            <thead>
+                <tr>
+                    <th>Nombres y apellidos</th>
+                    <th>Correo</th>
+                    <th>Rol</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let u of usuarioResponse" class="hover">
+                    <td>{{u.nombres + ' ' + u.apellidos}}</td>
+                    <td>{{u.correo}}</td>
+                    <td>{{u.roles}}</td>
+                    <td class="flex row justify-center gap-3">
+                        <a class="btn btn-accent">Actualizar</a>
+                        <a class="btn btn-error">Eliminar</a>
+                    </td>
+                </tr>
+            </tbody>
         </table>
     </div>
 </div>
