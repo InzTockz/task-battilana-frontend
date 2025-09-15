@@ -1,4 +1,4 @@
-<div class="p-10">
+<div class="pl-[4%] pr-[4%] pt-[0] pb-[3%]">
     <div class="flex flex-col justify-center gap-4">
         <div class="flex flex-row gap-3 items-center">
         </div>
@@ -33,13 +33,13 @@
                 </div>
             </div>
         </div>
-        <div class="divider -mt-3 mb-0"></div>
-
-        <div class="divider mb-0 pb-0"></div>
-        <div class="mt-5">
-            <div class="flex flex-row justify-between mb-8">
+        <div class="divider">
+            <h1 class="text-2xl font-bold">Proyectos</h1>
+        </div>
+        <div class="-mt-3">
+            <div class="flex flex-row justify-between mb-4">
                 <div class="inline-flex justify-center items-center">
-                    <h1 class="text-2xl font-semibold">Carpetas de proyectos</h1>
+                    <a class="text-base font-normal text-gray-600">proyectos/</a>
                 </div>
                 <div class="flex flex-row gap-2">
                     <a onclick="modal_add_file.showModal()"
@@ -50,7 +50,30 @@
                         Tarea</a>
                 </div>
             </div>
-            <router-outlet></router-outlet>
+            <div class="overflow-auto">
+                <table class="table table-fixed">
+                    <thead>
+                        <tr>
+                            <th>Tipo</th>
+                            <th>Nombre</th>
+                            <th>Modificado</th>
+                            <th>Tamaño del archivo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let c of carpetaResponse" class="hover">
+                            <td>
+                                <img class="size-8" src="ic_carpeta.png">
+                            </td>
+                            <td>
+                                <a href="#" class="no-underline hover:underline">{{c.nombreCarpeta}}</a>
+                            </td>
+                            <td>{{c.fechaModificacion}}</td>
+                            <td>20</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
@@ -61,13 +84,14 @@
         <h3 class="font-bold text-lg">Crear carpeta</h3>
         <div class="py-1 mt-5 flex flex-col">
             <!-- <label class="label label-text">Nombre de la carpeta</label> -->
-            <input class="border border-black rounded-lg p-3 text" placeholder="Ingrese el nombre de la carpeta">
+            <input [(ngModel)]="carpetaRequest.nombreCarpeta" class="border border-black rounded-lg p-3 text"
+                placeholder="Ingrese el nombre de la carpeta">
         </div>
         <div class="modal-action">
             <form method="dialog">
                 <button class="btn">Cerrar</button>
             </form>
-            <button
+            <button type="submit" (click)="addTask()"
                 class="inline-flex justify-center items-center cursor-pointer border p-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 hover:scale-105 transition duration-150">Agregar</button>
         </div>
     </div>
@@ -103,12 +127,13 @@
                 <label class="text-sm font-medium">Carpetas</label>
                 <select class="select select-bordered border border-gray-500">
                     <option>Seleccione</option>
+                    <option *ngFor="let c of carpetaResponse" [value]="c.idCarpeta">{{c.nombreCarpeta}}</option>
                 </select>
             </div>
         </div>
         <div class="modal-action">
             <form method="dialog"><button class="btn btn-accent" (click)="closeModal()">Cancelar</button></form>
-            <button class="btn btn-primary" (click)="addTask()">Registrar</button>
+            <button type="submit" class="btn btn-primary">Registrar</button>
         </div>
     </div>
     <form method="dialog" class="modal-backdrop">
