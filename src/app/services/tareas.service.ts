@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TareaResponse } from '../models/tareas/tarea-response';
 import { Observable } from 'rxjs';
@@ -81,5 +81,12 @@ export class TareasService {
 
   getContadorTotalPorUsuario(idUsuario:number):Observable<number>{
     return this.http.get<number>(`${this.tareasApi}/contador-total/usuario/${idUsuario}`, {headers: this.header.getHeader()})
+  }
+
+  getListadoTareasPorCarpetaYEstado(idCarpeta:number, estado:string):Observable<TareaResponse>{
+    const params = new HttpParams()
+    .set('idCarpeta', idCarpeta)
+    .set('estado', estado)
+    return this.http.get<TareaResponse>(`${this.tareasApi}/listado/carpeta`, {params})
   }
 }

@@ -22,6 +22,7 @@ export const routes: Routes = [
                 component:  HomeComponent, 
                 canActivate:[authGuard],
             },
+            { path: 'task', component: TaskComponent, canActivate:[authGuard]},
             { path: 'manager-task', component: TaskUserComponent, canActivate:[authGuard]},
             { path: 'register-admin', component: RegisterAdminComponent, canActivate:[authGuard]}
         ]

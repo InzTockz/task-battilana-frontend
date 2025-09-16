@@ -1,4 +1,4 @@
-<div class="p-10">
+<div class="pl-[4%] pr-[4%] pt-[1.5%] pb-[3%]">
     <div class="flex flex-col justify-center gap-4">
         <div class="flex flex-row gap-3 items-center">
             <div class="flex flex-col items-center w-full relative sm:flex-row">
@@ -14,46 +14,6 @@
                     class=" btn rounded-lg border border-base-content"><lucide-icon [img]="icons.plus"></lucide-icon>
                     Nueva tarea</button>
             </div>
-            <!-- MODAL-->
-            <dialog #modalRegistro id="modalRegistro" class="modal">
-                <div class="modal-box max-h-screen overflow-y-auto">
-                    <div class="flex flex-col space-y-1.5 text-center sm:text-left">
-                        <h3 class="tracking-tight text-xl font-semibold text-purple-700">Registro de Tarea</h3>
-                        <p class="text-sm text-muted-foreground text-gray-400">Complete el formulario para registrar una
-                            nueva tarea.</p>
-                    </div>
-                    <div class="grid gap-4 py-4">
-                        <div class="grid gap-2">
-                            <label class="text-sm font-medium">Nombre de la Tarea</label>
-                            <input placeholder="Escriba la tarea..." [(ngModel)]="tarea.nombreTarea"
-                                class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm">
-                        </div>
-                        <div class="grid gap-2">
-                            <label class="text-sm font-medium">Descripción</label>
-                            <textarea placeholder="Escriba una descripcion..." [(ngModel)]="tarea.descripcion"
-                                class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"></textarea>
-                        </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div class="grid gap-2 relative">
-                                <label class="text-sm font-medium">Fecha de Inicio</label>
-                                <input type="date" [(ngModel)]="tarea.fechaInicio" class="border rounded-md p-2">
-                            </div>
-                            <div class="grid gap-2">
-                                <label class="text-sm font-medium">Fecha de Fin</label>
-                                <input type="date" [(ngModel)]="tarea.fechaFin" class="border rounded-md p-2">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-action">
-                        <button class="btn btn-accent" (click)="closeModal()">Cancelar</button>
-                        <button class="btn btn-primary" (click)="registrarTarea()">Registrar</button>
-                    </div>
-                </div>
-
-                <form method="dialog" class="modal-backdrop">
-                    <button (click)="closeModal()"></button>
-                </form>
-            </dialog>
         </div>
         <div class="divider -mt-3 mb-0"></div>
         <div class="flex flex-col">
@@ -90,10 +50,17 @@
                 </div>
             </div>
         </div>
-        <div class="mt-5">
-            <h1 class="text-2xl font-semibold mb-5">Proyectos</h1>
-            <router-outlet></router-outlet>
-            <!-- <div *ngIf="tareasFiltradas.length == 0" class="flex flex-row items-center justify-center mt-20">
+        <div class="divider">
+            <h1 class="text-2xl font-bold">Tareas</h1>
+        </div>
+        <div class="-mt-3">
+            <div class="inline-flex justify-center items-center mb-3">
+                <a routerLink="/" class="text-base font-normal text-gray-600 
+                    hover:underline hover:text-blue-700 cursor-pointer">proyectos</a>
+                <a>/</a>
+                <a class="text-base font-normal text-gray-600">{{carpeta.nombreCarpeta}}</a>
+            </div>
+            <div *ngIf="tareasFiltradas.length == 0" class="flex flex-row items-center justify-center mt-20">
                 <img class="size-1/6" src="vaca-fondo.png">
             </div>
             <div *ngIf="tareasFiltradas.length != 0" class="flex flex-col gap-5">
@@ -137,7 +104,47 @@
                         </div>
                     </div>
                 </div>
-            </div> -->
+            </div>
         </div>
     </div>
 </div>
+
+<dialog #modalRegistro id="modalRegistro" class="modal">
+    <div class="modal-box max-h-screen overflow-y-auto">
+        <div class="flex flex-col space-y-1.5 text-center sm:text-left">
+            <h3 class="tracking-tight text-xl font-semibold text-purple-700">Registro de Tarea</h3>
+            <p class="text-sm text-muted-foreground text-gray-400">Complete el formulario para registrar una
+                nueva tarea.</p>
+        </div>
+        <div class="grid gap-4 py-4">
+            <div class="grid gap-2">
+                <label class="text-sm font-medium">Nombre de la Tarea</label>
+                <input placeholder="Escriba la tarea..." [(ngModel)]="tarea.nombreTarea"
+                    class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm">
+            </div>
+            <div class="grid gap-2">
+                <label class="text-sm font-medium">Descripción</label>
+                <textarea placeholder="Escriba una descripcion..." [(ngModel)]="tarea.descripcion"
+                    class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"></textarea>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="grid gap-2 relative">
+                    <label class="text-sm font-medium">Fecha de Inicio</label>
+                    <input type="date" [(ngModel)]="tarea.fechaInicio" class="border rounded-md p-2">
+                </div>
+                <div class="grid gap-2">
+                    <label class="text-sm font-medium">Fecha de Fin</label>
+                    <input type="date" [(ngModel)]="tarea.fechaFin" class="border rounded-md p-2">
+                </div>
+            </div>
+        </div>
+        <div class="modal-action">
+            <button class="btn btn-accent" (click)="closeModal()">Cancelar</button>
+            <button class="btn btn-primary" (click)="registrarTarea()">Registrar</button>
+        </div>
+    </div>
+
+    <form method="dialog" class="modal-backdrop">
+        <button (click)="closeModal()"></button>
+    </form>
+</dialog>

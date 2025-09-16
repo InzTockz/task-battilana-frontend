@@ -4,4 +4,5 @@ export class TareaRequest {
     fechaInicio!:string;
     fechaFin!:string;
     idUsuariosEntity:number = -1;
+    idCarpeta:number = -1;
 }

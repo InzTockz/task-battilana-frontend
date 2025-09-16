@@ -20,4 +20,8 @@ export class CarpetaService {
   getCarpetas(idUsuario:number):Observable<CarpetaResponse[]>{
     return this.http.get<CarpetaResponse[]>(`${this.carpetaApi}/buscar/${idUsuario}`);
   }
+
+  getCarpeta(idUsuario:number):Observable<CarpetaResponse>{
+    return this.http.get<CarpetaResponse>(`${this.carpetaApi}/buscar/carpeta/${idUsuario}`);
+  }
 }

@@ -10,12 +10,15 @@ import { UsuariosService } from '../../../services/usuarios.service';
 import { TareaResponse } from '../../../models/tareas/tarea-response';
 import { UsuariosResponse } from '../../../models/usuarios/usuarios-response';
 import { TareaRequest } from '../../../models/tareas/tarea-request';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { CarpetaResponse } from '../../../models/carpetas/carpeta-response';
+import { CarpetaService } from '../../../services/carpeta.service';
+
 
 
 @Component({
   selector: 'app-task',
-  imports: [LucideAngularModule, CommonModule, FormsModule, RouterOutlet],
+  imports: [LucideAngularModule, CommonModule, FormsModule, RouterOutlet, RouterLink],
   templateUrl: './task.component.html',
   styleUrl: './task.component.css'
 })
@@ -26,7 +29,7 @@ export class TaskComponent {
       stadistic: ChartColumn, search: Search, trash: Trash2
     }
   
-    @ViewChild('modalRegistro') modalRegistro!: ElementRef<HTMLDialogElement>;
+    @ViewChild('modalRegistro')  modalRegistro!: ElementRef<HTMLDialogElement>;
   
     tareas: TareaResponse[] = [];
     tareasFiltradas: TareaResponse[] = [];
@@ -43,9 +46,10 @@ export class TaskComponent {
     fechaFin: string = "";
   
     showTaskLogin: any = "0";
+    carpeta:CarpetaResponse = new CarpetaResponse();
   
     constructor(private tareasService: TareasService, private usuariosService: UsuariosService, private toastr: ToastrService,
-      private loginService:LoginService
+      private loginService:LoginService, private carpetaService:CarpetaService
     ) { }
   
     ngOnInit(): void {
@@ -53,6 +57,7 @@ export class TaskComponent {
       this.listarContadorPendientePorUsuario();
       this.listarContadorCompletadoPorUsuario();
       this.listarContadorTotalPorUsuario();
+      this.buscarCarpeta();
     }
   
     listarPendientePorUsuario(): void {
@@ -63,6 +68,13 @@ export class TaskComponent {
           this.tareaEstado = "pendiente";
           this.tareasFiltradas = this.tareas;
         }
+      )
+    }
+
+    buscarCarpeta(){
+      const idCarpeta = localStorage.getItem('idCarpeta')?.toString();
+      this.carpetaService.getCarpeta(Number(idCarpeta)).subscribe(
+        response => this.carpeta = response
       )
     }
   

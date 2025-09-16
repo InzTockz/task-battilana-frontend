@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TareasService } from '../../services/tareas.service';
 import { LoginService } from '../../services/login.service';
 import { LucideAngularModule, FileIcon, PanelLeft, Plus, Clock, ChartColumn, Search, CircleCheck, Check, Trash2 } from 'lucide-angular';
@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { CarpetaService } from '../../services/carpeta.service';
 import { CarpetaRequest } from '../../models/carpetas/carpeta-request';
 import { CarpetaResponse } from '../../models/carpetas/carpeta-response';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -20,20 +21,25 @@ import { CarpetaResponse } from '../../models/carpetas/carpeta-response';
 export class HomeComponent implements OnInit {
 
   readonly icons = {
-      fileIcon: FileIcon, panelLeft: PanelLeft, plus: Plus, clock: Clock, circleCheck: CircleCheck,
-      stadistic: ChartColumn, search: Search, trash: Trash2
-    }
+    fileIcon: FileIcon, panelLeft: PanelLeft, plus: Plus, clock: Clock, circleCheck: CircleCheck,
+    stadistic: ChartColumn, search: Search, trash: Trash2
+  }
 
   contadorPendiente!: number;
   contadorTerminado!: number;
   contadorTotales!: number;
-  tarea:TareaRequest = new TareaRequest();
+  tarea: TareaRequest = new TareaRequest();
+
+  @ViewChild('modalTarea') modalRegistro!: ElementRef<HTMLDialogElement>;
+  @ViewChild('modalCarpeta') modalCarpetaDialog!: ElementRef<HTMLDialogElement>;
 
   //SECCION DE LA CARPETA
-  carpetaRequest:CarpetaRequest = new CarpetaRequest();
-  carpetaResponse:CarpetaResponse[] = [];
+  carpetaRequest: CarpetaRequest = new CarpetaRequest();
+  carpetaResponse: CarpetaResponse[] = [];
 
-  constructor(private tareasService: TareasService, private loginService: LoginService, private carpetaService:CarpetaService) { }
+  constructor(private tareasService: TareasService, private loginService: LoginService, private carpetaService: CarpetaService,
+    private toastService: ToastrService
+  ) { }
 
   ngOnInit(): void {
     this.listarContadorCompletadoPorUsuario();
@@ -66,27 +72,52 @@ export class HomeComponent implements OnInit {
     )
   }
 
-  getCarpetasId(){
+  getCarpetasId() {
     const idUsuario = this.loginService.getToken('userToken').idUsuarios;
     this.carpetaService.getCarpetas(idUsuario).subscribe(
       response => this.carpetaResponse = response
     )
   }
 
-  addTask():void{
-    this.carpetaRequest.idUsuario = this.loginService.getToken('userToken').idUsuarios;
-    this.carpetaService.postCarpeta(this.carpetaRequest).subscribe(
+  addTarea() {
+    this.tarea.idUsuariosEntity = this.loginService.getToken('userToken').idUsuarios;
+    this.tareasService.postTareas(this.tarea).subscribe(
       () => {
-        console.log("Carpeta registrada")
         this.getCarpetasId();
         this.listarContadorPendientePorUsuario();
         this.listarContadorCompletadoPorUsuario();
         this.listarContadorTotalPorUsuario();
+        this.closeModalTarea();
+        this.toastService.success('Tarea agregada', '')
       }
     )
   }
 
-  closeModal():void{
+  addCarpeta(): void {
+    this.carpetaRequest.idUsuario = this.loginService.getToken('userToken').idUsuarios;
+    this.carpetaService.postCarpeta(this.carpetaRequest).subscribe(
+      () => {
+        this.getCarpetasId();
+        this.listarContadorPendientePorUsuario();
+        this.listarContadorCompletadoPorUsuario();
+        this.listarContadorTotalPorUsuario();
+        this.closeModalCarpeta();
+        this.toastService.success('Carpeta agregada', '')
+      }
+    )
+  }
 
+  setIdCarpeta(idCarpeta:number){
+    localStorage.setItem('idCarpeta', String(idCarpeta));
+  }
+
+  closeModalTarea(): void {
+    this.modalRegistro.nativeElement.close();
+    this.tarea = new TareaRequest();
+  }
+
+  closeModalCarpeta(): void {
+    this.modalCarpetaDialog.nativeElement.close();
+    this.carpetaRequest = new CarpetaRequest();
   }
 }
