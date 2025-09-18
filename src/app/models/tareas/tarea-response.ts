@@ -11,4 +11,5 @@ export class TareaResponse {
     fechaFin!: string;
     idUsuariosEntity!: number;
     nombreUsuarioEntity!: string;
+    idCarpeta!:number;
 }

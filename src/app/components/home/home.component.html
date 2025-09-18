@@ -37,7 +37,8 @@
         <div class="-mt-3">
             <div class="flex flex-row justify-between mb-4">
                 <div class="inline-flex justify-center items-center">
-                    <a class="text-base font-normal text-gray-600">proyectos/</a>
+                    <a class="text-base font-mono text-gray-600">proyectos</a>
+                    <a class="ml-0.5 font-mono">/</a>
                 </div>
                 <div class="flex flex-row gap-2">
                     <a onclick="modal_add_file.showModal()"
@@ -67,7 +68,7 @@
                                 <a routerLink="/task" (click)="setIdCarpeta(c.idCarpeta)" href="#" class="no-underline hover:underline">{{c.nombreCarpeta}}</a>
                             </td>
                             <td>{{c.fechaModificacion}}</td>
-                            <td>20</td>
+                            <td>{{ contadorTareasPorCarpeta.get(c.idCarpeta) || 0 }}</td>
                         </tr>
                     </tbody>
                 </table>

@@ -36,6 +36,7 @@ export class HomeComponent implements OnInit {
   //SECCION DE LA CARPETA
   carpetaRequest: CarpetaRequest = new CarpetaRequest();
   carpetaResponse: CarpetaResponse[] = [];
+  contadorTareasPorCarpeta = new Map<number, number>();
 
   constructor(private tareasService: TareasService, private loginService: LoginService, private carpetaService: CarpetaService,
     private toastService: ToastrService
@@ -75,7 +76,18 @@ export class HomeComponent implements OnInit {
   getCarpetasId() {
     const idUsuario = this.loginService.getToken('userToken').idUsuarios;
     this.carpetaService.getCarpetas(idUsuario).subscribe(
-      response => this.carpetaResponse = response
+      response => {
+        this.carpetaResponse = response;
+
+        this.carpetaResponse.forEach( c => {
+          this.tareasService.getContadorPorCarpetaYEstado(c.idCarpeta).subscribe(
+            total => {
+              this.contadorTareasPorCarpeta.set(c.idCarpeta, total)
+            }
+          )
+        })
+        
+      }
     )
   }
 

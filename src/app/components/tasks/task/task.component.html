@@ -9,16 +9,19 @@
                         <input class="input w-[80%] pl-9 border border-black" placeholder="Buscar tarea"
                             [(ngModel)]="busquedaInput" (input)="buscarTarea()">
                     </div>
+                    
                 </div>
-                <button onclick="modalRegistro.showModal()"
-                    class=" btn rounded-lg border border-base-content"><lucide-icon [img]="icons.plus"></lucide-icon>
-                    Nueva tarea</button>
+                    <div class="flex flex-row">
+                        <a onclick="modalRegistro.showModal()" class="inline-flex flex-row justify-center items-center cursor-pointer border p-2 bg-orange-400 text-black rounded-lg text-sm font-medium hover:bg-orange-500 hover:scale-105 transition duration-150">
+                        <lucide-icon [img]="icons.plus"></lucide-icon>Agregar tarea
+                    </a>
+                    </div>
             </div>
         </div>
         <div class="divider -mt-3 mb-0"></div>
         <div class="flex flex-col">
             <div class="flex flex-col justify-between md:flex-row gap-3 md:p-0">
-                <div (click)="listarPendientePorUsuario()" [ngClass]="tareaEstado == 'pendiente' ? 'bg-red-400':''"
+                <div (click)="listarPendientes()" [ngClass]="tareaEstado == 'pendiente' ? 'bg-red-400':''"
                     class="card bg-base-100 shadow-2xl rounded-lg border border-base-content md:w-[30%] w-full bg-red-300">
                     <div class="card-body text-black">
                         <h3 class="text-left font-semibold text-base flex justify-between">Tareas pendientes
@@ -55,10 +58,10 @@
         </div>
         <div class="-mt-3">
             <div class="inline-flex justify-center items-center mb-3">
-                <a routerLink="/" class="text-base font-normal text-gray-600 
+                <a routerLink="/" class="text-base font-mono text-gray-600 
                     hover:underline hover:text-blue-700 cursor-pointer">proyectos</a>
-                <a>/</a>
-                <a class="text-base font-normal text-gray-600">{{carpeta.nombreCarpeta}}</a>
+                <a class="font-mono">/</a>
+                <a class="text-base font-mono text-black">{{carpeta.nombreCarpeta}}</a>
             </div>
             <div *ngIf="tareasFiltradas.length == 0" class="flex flex-row items-center justify-center mt-20">
                 <img class="size-1/6" src="vaca-fondo.png">

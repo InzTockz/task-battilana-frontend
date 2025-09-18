@@ -40,12 +40,12 @@ export class SidebarComponent implements OnInit{
       route: '/manager-task',
       isActive: false
     },
-    {
-      icon: this.faUserPlus,
-      label: 'Registrar Usuario',
-      route: 'register-admin',
-      isActive: false
-    }
+    // {
+    //   icon: this.faUserPlus,
+    //   label: 'Registrar Usuario',
+    //   route: 'register-admin',
+    //   isActive: false
+    // }
   ]
 
   navLogout:SideNavItem = {icon: this.faDoorOpen, label: "Cerrar sesion", route: '/logout'}

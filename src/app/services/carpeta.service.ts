@@ -9,7 +9,7 @@ import { CarpetaResponse } from '../models/carpetas/carpeta-response';
 })
 export class CarpetaService {
 
-  private carpetaApi:string = 'http://localhost:8080/v1/api/carpetas';
+  private carpetaApi:string = 'http://192.168.1.139:8080/v1/api/carpetas';
 
   constructor(private http:HttpClient) { }
 
