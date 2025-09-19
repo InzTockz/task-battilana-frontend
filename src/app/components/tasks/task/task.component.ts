@@ -135,12 +135,14 @@ export class TaskComponent {
   registrarTarea(): void {
 
     const idUsuario = this.loginService.getToken('userToken').idUsuarios;
+    const idCarpeta = localStorage.getItem('idCarpeta')?.toString();
 
     this.tarea.idUsuariosEntity = idUsuario;
+    this.tarea.idCarpeta = Number(idCarpeta);
 
     this.tareasService.postTareas(this.tarea).subscribe(
       () => {
-        this.listarPendientes()
+        this.listarPendientes();
         this.contadorPorCarpetaPendiente();
         this.contadorPorCarpetaTerminado();
         this.contadorPorCarpetaTotal();
