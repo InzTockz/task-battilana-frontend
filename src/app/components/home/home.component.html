@@ -67,8 +67,8 @@
                             <td>
                                 <a routerLink="/task" (click)="setIdCarpeta(c.idCarpeta)" href="#" class="no-underline hover:underline">{{c.nombreCarpeta}}</a>
                             </td>
-                            <td>{{c.fechaModificacion}}</td>
-                            <td>{{ contadorTareasPorCarpeta.get(c.idCarpeta) || 0 }}</td>
+                            <td>{{c.fechaModificacion | date: 'dd/MM/yyyy'}}</td>
+                            <td>{{ contadorTareaPorCarpetaPendiente.get(c.idCarpeta) || 0 }}</td>
                         </tr>
                     </tbody>
                 </table>

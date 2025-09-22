@@ -10,6 +10,7 @@ import { CarpetaService } from '../../services/carpeta.service';
 import { CarpetaRequest } from '../../models/carpetas/carpeta-request';
 import { CarpetaResponse } from '../../models/carpetas/carpeta-response';
 import { ToastrService } from 'ngx-toastr';
+import { Estados } from '../../models/tareas/estados';
 
 
 @Component({
@@ -36,7 +37,7 @@ export class HomeComponent implements OnInit {
   //SECCION DE LA CARPETA
   carpetaRequest: CarpetaRequest = new CarpetaRequest();
   carpetaResponse: CarpetaResponse[] = [];
-  contadorTareasPorCarpeta = new Map<number, number>();
+  contadorTareaPorCarpetaPendiente = new Map<number, number>();
 
   constructor(private tareasService: TareasService, private loginService: LoginService, private carpetaService: CarpetaService,
     private toastService: ToastrService
@@ -80,9 +81,9 @@ export class HomeComponent implements OnInit {
         this.carpetaResponse = response;
 
         this.carpetaResponse.forEach( c => {
-          this.tareasService.getContadorPorCarpetaYEstado(c.idCarpeta).subscribe(
-            total => {
-              this.contadorTareasPorCarpeta.set(c.idCarpeta, total)
+          this.tareasService.getContadorPorCarpetaYEstado(c.idCarpeta, Estados.PENDIENTE).subscribe(
+            pendiente => {
+              this.contadorTareaPorCarpetaPendiente.set(c.idCarpeta, pendiente)
             }
           )
         })

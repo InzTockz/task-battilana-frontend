@@ -52,6 +52,12 @@ export class TareasService {
     return this.http.put<void>(`${this.tareasApi}/actualizar-estado/${idTarea}`, null, { headers: this.header.getHeader() });
   }
 
+  updateStatusAndComment(idTarea: number, comentario:string):Observable<void>{
+    
+    const params = new HttpParams().set("idTarea", idTarea).set("comentario", comentario);
+    return this.http.put<void>(`${this.tareasApi}/actualizar-comentario`, {params, headers: this.header.getHeader()})
+  }
+
   getPendiente(): Observable<TareaResponse[]> {
     return this.http.get<TareaResponse[]>(`${this.tareasApi}/listado-pendientes`, { headers: this.header.getHeader() });
   }

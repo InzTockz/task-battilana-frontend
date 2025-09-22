@@ -153,6 +153,10 @@ export class TaskComponent {
     )
   }
 
+  actualizarEstadoYComentario():void{
+    //AQUI ME QUEDE
+  }
+
   actualizarEstado(idTarea: number): void {
     Swal.fire({
       title: "Desea marcar como culminada?",

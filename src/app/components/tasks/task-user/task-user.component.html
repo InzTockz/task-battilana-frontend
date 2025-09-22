@@ -117,7 +117,7 @@
                                 [img]="icons.trash"></lucide-icon>
                         </button>
                         <div class="flex flex-col justify-between w-full sm:w-[99%] sm:flex-row sm:gap-0 gap-2">
-                            <div class="badge badge-outline p-3">Creado: {{t.fechaCreacion}}</div>
+                            <div class="badge badge-outline p-3">Creado: {{t.fechaCreacion | date: 'dd/MM/yyyy'}}</div>
                             <div [ngClass]="trueDesign(t.estado)? 'bg-green-300':'bg-red-300'"
                                 class="flex flex-row  badge badge-outline text-base font-bold text-black p-3">Estado:
                                 {{t.estado}}
@@ -142,9 +142,9 @@
                             </div>
                             <div class="card-actions">
                                 <div class="badge badge-outline font-semibold text-base ml-2">Inicio:<span
-                                        class="font-bold ml-1">{{t.fechaInicio}}</span></div>
+                                        class="font-bold ml-1">{{t.fechaInicio | date: 'dd/MM/yyyy'}}</span></div>
                                 <div class="badge badge-outline font-semibold text-base">Final:<span
-                                        class="font-bold ml-1">{{t.fechaFin}}</span></div>
+                                        class="font-bold ml-1">{{t.fechaFin | date: 'dd/MM/yyyy'}}</span></div>
                             </div>
                         </div>
                     </div>

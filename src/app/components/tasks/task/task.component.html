@@ -75,7 +75,7 @@
                                 [img]="icons.trash"></lucide-icon>
                         </button>
                         <div class="flex flex-col justify-between w-full sm:w-[99%] sm:flex-row sm:gap-0 gap-2">
-                            <div class="badge badge-outline p-3">Creado: {{t.fechaCreacion}}</div>
+                            <div class="badge badge-outline p-3">Creado: {{t.fechaCreacion | date: 'dd/MM/yyyy'}}</div>
                             <div [ngClass]="trueDesign(t.estado)? 'bg-green-300':'bg-red-300'"
                                 class="flex flex-row  badge badge-outline text-base font-bold text-black p-3">Estado:
                                 {{t.estado}}
@@ -89,8 +89,11 @@
                                 <p>{{t.descripcion}}</p>
                             </div>
                             <div *ngIf="t.estado === 'PENDIENTE'" class="flex flex-row">
-                                <button (click)="actualizarEstado(t.idTarea)" class=><lucide-icon
-                                        class="text-green-500 size-8" [img]="icons.circleCheck"></lucide-icon></button>
+                                <!-- <button (click)="actualizarEstado(t.idTarea)" class=><lucide-icon
+                                        class="text-green-500 size-8" [img]="icons.circleCheck"></lucide-icon></button> -->
+                                <button onclick="modalCompletarTarea.showModal()" class=><lucide-icon
+                                        class="text-green-500 scale-125 hover:scale-150 duration-300"
+                                        [img]="icons.circleCheck"></lucide-icon></button>
                             </div>
                         </div>
 
@@ -100,9 +103,9 @@
                             </div>
                             <div class="card-actions">
                                 <div class="badge badge-outline font-semibold text-base ml-2">Inicio:<span
-                                        class="font-bold ml-1">{{t.fechaInicio}}</span></div>
+                                        class="font-bold ml-1">{{t.fechaInicio | date: 'dd/MM/yyyy'}}</span></div>
                                 <div class="badge badge-outline font-semibold text-base">Final:<span
-                                        class="font-bold ml-1">{{t.fechaFin}}</span></div>
+                                        class="font-bold ml-1">{{t.fechaFin | date: 'dd/MM/yyyy'}}</span></div>
                             </div>
                         </div>
                     </div>
@@ -150,4 +153,20 @@
     <form method="dialog" class="modal-backdrop">
         <button (click)="closeModal()"></button>
     </form>
+</dialog>
+
+<dialog #modalCompletarTarea id="modalCompletarTarea" class="modal">
+    <div class="modal-box">
+        <h3 class="font-bold text-lg">Agregue un comentario (Opcional)</h3>
+        <textarea placeholder="Describa brevemente como se culmino la tarea"
+            class="w-full h-24 mt-4 p-2 border border-black rounded-ss-xl rounded-br-xl"></textarea>
+        <div class="modal-action">
+            <form method="dialog"><button
+                    class="inline-flex justify-center items-center cursor-pointer border p-2 bg-gray-300 text-black rounded-lg text-sm font-medium hover:bg-gray-400 hover:scale-105 transition duration-150">Cerrar</button>
+            </form>
+            <a
+                class="inline-flex justify-center items-center cursor-pointer border p-2 bg-green-400 text-black rounded-lg text-sm font-medium hover:bg-green-500 hover:scale-105 transition duration-150">Culminar
+                tarea</a>
+        </div>
+    </div>
 </dialog>
