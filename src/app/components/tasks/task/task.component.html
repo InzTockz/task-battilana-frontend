@@ -89,11 +89,14 @@
                                 <p>{{t.descripcion}}</p>
                             </div>
                             <div *ngIf="t.estado === 'PENDIENTE'" class="flex flex-row">
-                                <!-- <button (click)="actualizarEstado(t.idTarea)" class=><lucide-icon
-                                        class="text-green-500 size-8" [img]="icons.circleCheck"></lucide-icon></button> -->
-                                <button onclick="modalCompletarTarea.showModal()" class=><lucide-icon
-                                        class="text-green-500 scale-125 hover:scale-150 duration-300"
+                                <button onclick="modalCompletarTarea.showModal()" (click)="getTareaPorId(t.idTarea)"
+                                    class=><lucide-icon class="text-green-500 scale-125 hover:scale-150 duration-300"
                                         [img]="icons.circleCheck"></lucide-icon></button>
+                            </div>
+                            <div *ngIf="t.estado === 'TERMINADO'" class="flex flex-row">
+                                <button onclick="modalCompletarTarea.showModal()" (click)="getTareaPorId(t.idTarea)"
+                                    class=><lucide-icon class="text-blue-500 scale-125 hover:scale-150 duration-300"
+                                        [img]="icons.messageWarning"></lucide-icon></button>
                             </div>
                         </div>
 
@@ -157,14 +160,14 @@
 
 <dialog #modalCompletarTarea id="modalCompletarTarea" class="modal">
     <div class="modal-box">
-        <h3 class="font-bold text-lg">Agregue un comentario (Opcional)</h3>
-        <textarea placeholder="Describa brevemente como se culmino la tarea"
+        <h3 class="font-bold text-lg"> {{tareaResponse.estado == 'TERMINADO'? 'Comentario':'Agregue un comentario (Opcional)'}}</h3>
+        <textarea [(ngModel)]="tareaResponse.comentario" placeholder="Describa brevemente como se culmino la tarea"
             class="w-full h-24 mt-4 p-2 border border-black rounded-ss-xl rounded-br-xl"></textarea>
         <div class="modal-action">
-            <form method="dialog"><button
+            <form method="dialog"><button (click)="closeModalComentario()"
                     class="inline-flex justify-center items-center cursor-pointer border p-2 bg-gray-300 text-black rounded-lg text-sm font-medium hover:bg-gray-400 hover:scale-105 transition duration-150">Cerrar</button>
             </form>
-            <a
+            <a (click)="actualizarEstadoYComentario()" 
                 class="inline-flex justify-center items-center cursor-pointer border p-2 bg-green-400 text-black rounded-lg text-sm font-medium hover:bg-green-500 hover:scale-105 transition duration-150">Culminar
                 tarea</a>
         </div>

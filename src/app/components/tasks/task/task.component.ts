@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { LucideAngularModule, FileIcon, PanelLeft, Plus, Clock, ChartColumn, Search, CircleCheck, Check, Trash2 } from 'lucide-angular';
+import { LucideAngularModule, FileIcon, PanelLeft, Plus, Clock, ChartColumn, Search, CircleCheck, Check, Trash2, MessageSquareWarning } from 'lucide-angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'
 import { ToastrService } from 'ngx-toastr';
@@ -27,19 +27,22 @@ export class TaskComponent {
 
   readonly icons = {
     fileIcon: FileIcon, panelLeft: PanelLeft, plus: Plus, clock: Clock, circleCheck: CircleCheck,
-    stadistic: ChartColumn, search: Search, trash: Trash2
+    stadistic: ChartColumn, search: Search, trash: Trash2, messageWarning: MessageSquareWarning
   }
 
   @ViewChild('modalRegistro') modalRegistro!: ElementRef<HTMLDialogElement>;
+  @ViewChild('modalCompletarTarea') modalComentarioYEstado!: ElementRef<HTMLDialogElement>;
 
   tareas: TareaResponse[] = [];
   tareasFiltradas: TareaResponse[] = [];
+  tareaResponse: TareaResponse = new TareaResponse();
   busquedaInput: string = "";
   tareaEstado: string = "";
   usuarios: UsuariosResponse[] = [];
   contadorPendiente!: number;
   contadorTerminado!: number;
   contadorTotales!: number;
+  comentario!: string;
 
   tarea: TareaRequest = new TareaRequest;
 
@@ -133,7 +136,6 @@ export class TaskComponent {
 
   //SECCION DE CRUD
   registrarTarea(): void {
-
     const idUsuario = this.loginService.getToken('userToken').idUsuarios;
     const idCarpeta = localStorage.getItem('idCarpeta')?.toString();
 
@@ -153,8 +155,29 @@ export class TaskComponent {
     )
   }
 
-  actualizarEstadoYComentario():void{
-    //AQUI ME QUEDE
+  actualizarEstadoYComentario(): void {
+    //console.log(this.tareaResponse.idTarea)
+    this.tareasService.updateStatusAndComment(this.tareaResponse.idTarea, this.tareaResponse.comentario).subscribe(
+      () => {
+        this.listarPendientes();
+        this.contadorPorCarpetaPendiente();
+        this.contadorPorCarpetaTerminado();
+        this.contadorPorCarpetaTotal();
+        this.closeModalComentario();
+        Swal.fire({
+          title: 'TAREA COMPLETADA',
+          icon: 'success'
+        });
+      }
+    )
+  }
+
+  getTareaPorId(idTarea: number): void {
+    this.tareasService.getTareaPorId(idTarea).subscribe(
+      response => {
+        this.tareaResponse = response
+      }
+    )
   }
 
   actualizarEstado(idTarea: number): void {
@@ -211,6 +234,11 @@ export class TaskComponent {
   closeModal() {
     this.modalRegistro.nativeElement.close();
     this.tarea = new TareaRequest();
+  }
+
+  closeModalComentario() {
+    this.modalComentarioYEstado.nativeElement.close();
+    this.comentario = "";
   }
 
   trueDesign(estadoBol: string): boolean {

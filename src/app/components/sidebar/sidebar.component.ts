@@ -25,7 +25,7 @@ export class SidebarComponent implements OnInit{
   readonly faUserPlus = faUserPlus;
   readonly faDoorOpen = faDoorOpen;
 
-  public isLeftNavOpen = signal<boolean>(true);
+  public isLeftNavOpen = signal<boolean>(false);
 
   navItems: SideNavItem[] = [
     {

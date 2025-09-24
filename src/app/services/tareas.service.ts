@@ -40,7 +40,7 @@ export class TareasService {
     return this.http.delete<void>(`${this.tareasApi}/eliminar/${idTarea}`, { headers: this.header.getHeader() });
   }
 
-  findTarea(idTarea: number): Observable<TareaResponse> {
+  getTareaPorId(idTarea: number): Observable<TareaResponse> {
     return this.http.get<TareaResponse>(`${this.tareasApi}/buscar/${idTarea}`, { headers: this.header.getHeader() });
   }
 
@@ -52,10 +52,15 @@ export class TareasService {
     return this.http.put<void>(`${this.tareasApi}/actualizar-estado/${idTarea}`, null, { headers: this.header.getHeader() });
   }
 
-  updateStatusAndComment(idTarea: number, comentario:string):Observable<void>{
-    
-    const params = new HttpParams().set("idTarea", idTarea).set("comentario", comentario);
-    return this.http.put<void>(`${this.tareasApi}/actualizar-comentario`, {params, headers: this.header.getHeader()})
+  //SERVICIO PARA ACTUALIZAR EL ESTADO CON UN COMENTARIO
+  updateStatusAndComment(idTarea: number, comentario?:string):Observable<void>{
+    let params = new HttpParams().set("idTarea", idTarea);
+    if(comentario!=null && comentario!=""){
+      params = params.set("comentario", comentario!)
+      return this.http.put<void>(`${this.tareasApi}/actualizar-comentario`, null, {params, headers: this.header.getHeader()})  
+    } else {
+      return this.http.put<void>(`${this.tareasApi}/actualizar-comentario`, null, {params, headers: this.header.getHeader()})
+    }
   }
 
   getPendiente(): Observable<TareaResponse[]> {
