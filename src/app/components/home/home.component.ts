@@ -30,6 +30,8 @@ export class HomeComponent implements OnInit {
   contadorTerminado!: number;
   contadorTotales!: number;
   tarea: TareaRequest = new TareaRequest();
+  fechaInicio?: Date;
+  fechaFin?: Date;
 
   @ViewChild('modalTarea') modalRegistro!: ElementRef<HTMLDialogElement>;
   @ViewChild('modalCarpeta') modalCarpetaDialog!: ElementRef<HTMLDialogElement>;
@@ -80,15 +82,36 @@ export class HomeComponent implements OnInit {
       response => {
         this.carpetaResponse = response;
 
-        this.carpetaResponse.forEach( c => {
+        this.carpetaResponse.forEach(c => {
           this.tareasService.getContadorPorCarpetaYEstado(c.idCarpeta, Estados.PENDIENTE).subscribe(
             pendiente => {
               this.contadorTareaPorCarpetaPendiente.set(c.idCarpeta, pendiente)
             }
           )
         })
-        
+
       }
+    )
+  }
+
+  testChange() {
+    console.log(this.fechaInicio)
+    console.log(this.fechaFin)
+    const idUsuario = this.loginService.getToken('userToken').idUsuarios;
+
+    if (this.fechaInicio != null && String(this.fechaInicio) != null && this.fechaFin != null && String(this.fechaFin) != '') {
+      this.carpetaService.getCarpetaPorUsuarioFechaYEstado(idUsuario, this.fechaInicio, this.fechaFin).subscribe(
+        response => this.carpetaResponse = response
+      )
+    } else {
+      this.getCarpetasId();
+    }
+  }
+
+  filtrarCarpetasPorFecha(firstDate: Date, lastDate: Date) {
+    const idUsuario = this.loginService.getToken('userToken').idUsuarios;
+    this.carpetaService.getCarpetaPorUsuarioFechaYEstado(idUsuario, undefined, undefined).subscribe(
+      response => this.carpetaResponse = response
     )
   }
 
@@ -120,7 +143,7 @@ export class HomeComponent implements OnInit {
     )
   }
 
-  setIdCarpeta(idCarpeta:number){
+  setIdCarpeta(idCarpeta: number) {
     localStorage.setItem('idCarpeta', String(idCarpeta));
   }
 

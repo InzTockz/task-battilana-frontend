@@ -70,11 +70,15 @@
                 <div class="card bg-base-100 w-full shadow-2xl rounded-lg border border-base-content"
                     *ngFor="let t of tareasFiltradas">
                     <div class="card-body relative">
-                        <button class="-mb-2" (click)="eliminarTarea(t.idTarea)">
-                            <lucide-icon class="absolute top-0.5 right-0.5 text-red-700"
-                                [img]="icons.trash"></lucide-icon>
-                        </button>
-                        <div class="flex flex-col justify-between w-full sm:w-[99%] sm:flex-row sm:gap-0 gap-2">
+                        <lucide-icon (click)="getTareaPorId(t.idTarea)" onclick="modalActualizar.showModal()"
+                            class="size-5 absolute top-0.5 right-4 text-blue-500 cursor-pointer hover:scale-110 duration-300"
+                            [img]="icons.pencil">
+                        </lucide-icon>
+                        <lucide-icon (click)="eliminarTarea(t.idTarea)"
+                            class="size-5 cursor-pointer absolute top-0.5 right-0.5 text-red-700 hover:scale-110 duration-300"
+                            [img]="icons.trash">
+                        </lucide-icon>
+                        <div class="flex flex-col justify-between w-full sm:w-[99%] mt-2 sm:flex-row sm:gap-0 gap-2">
                             <div class="badge badge-outline p-3">Creado: {{t.fechaCreacion | date: 'dd/MM/yyyy'}}</div>
                             <div [ngClass]="trueDesign(t.estado)? 'bg-green-300':'bg-red-300'"
                                 class="flex flex-row  badge badge-outline text-base font-bold text-black p-3">Estado:
@@ -95,21 +99,16 @@
                             </div>
                             <div *ngIf="t.estado === 'TERMINADO'" class="flex flex-row">
                                 <button onclick="modalCompletarTarea.showModal()" (click)="getTareaPorId(t.idTarea)"
-                                    class=><lucide-icon class="text-blue-500 scale-125 hover:scale-150 duration-300"
+                                    class=><lucide-icon class="text-blue-700 scale-125 hover:scale-150 duration-300"
                                         [img]="icons.messageWarning"></lucide-icon></button>
                             </div>
                         </div>
 
-                        <div class="card-actions justify-between w-[99%] mt-5">
-                            <div class="badge badge-outline p-3">
-                                Asignado: {{t.nombreUsuarioEntity}}
-                            </div>
-                            <div class="card-actions">
-                                <div class="badge badge-outline font-semibold text-base ml-2">Inicio:<span
-                                        class="font-bold ml-1">{{t.fechaInicio | date: 'dd/MM/yyyy'}}</span></div>
-                                <div class="badge badge-outline font-semibold text-base">Final:<span
-                                        class="font-bold ml-1">{{t.fechaFin | date: 'dd/MM/yyyy'}}</span></div>
-                            </div>
+                        <div class="card-actions justify-between w-full mt-5">
+                            <div class="badge badge-outline font-semibold text-base">Inicio:<span
+                                    class="font-bold ml-1">{{t.fechaInicio | date: 'dd/MM/yyyy'}}</span></div>
+                            <div class="badge badge-outline font-semibold text-base">Final:<span
+                                    class="font-bold ml-1">{{t.fechaFin | date: 'dd/MM/yyyy'}}</span></div>
                         </div>
                     </div>
                 </div>
@@ -158,6 +157,51 @@
     </form>
 </dialog>
 
+<dialog #modalActualizar id="modalActualizar" class="modal">
+    <div class="modal-box max-h-screen overflow-y-auto">
+        <div class="flex flex-col space-y-1.5 text-center sm:text-left">
+            <h3 class="tracking-tight text-xl font-semibold text-purple-700">Registro de Tarea</h3>
+            <p class="text-sm text-muted-foreground text-gray-400">Complete el formulario para registrar una
+                nueva tarea.</p>
+        </div>
+        <div class="grid gap-4 py-4">
+            <div class="grid gap-2">
+                <label class="text-sm font-medium">Nombre de la Tarea</label>
+                <input placeholder="Escriba la tarea..." [(ngModel)]="tarea.nombreTarea"
+                    class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm">
+            </div>
+            <div class="grid gap-2">
+                <label class="text-sm font-medium">Descripción</label>
+                <textarea placeholder="Escriba una descripcion..." [(ngModel)]="tarea.descripcion"
+                    class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"></textarea>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="grid gap-2 relative">
+                    <label class="text-sm font-medium">Fecha de Inicio</label>
+                    <input type="date" [(ngModel)]="tarea.fechaInicio" class="border rounded-md p-2">
+                </div>
+                <div class="grid gap-2">
+                    <label class="text-sm font-medium">Fecha de Fin</label>
+                    <input type="date" [(ngModel)]="tarea.fechaFin" class="border rounded-md p-2">
+                </div>
+            </div>
+            <div class="grid gap-2">
+                <label class="text-sm font-medium">Carpeta</label>
+                <select class="select" [(ngModel)]="tarea.idCarpeta">
+                    <option *ngFor="let c of carpetaResponse" [value]="c.idCarpeta">{{c.nombreCarpeta}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="modal-action">
+            <button class="btn btn-accent" (click)="closeModalActualizar()">Cancelar</button>
+            <button class="btn btn-primary" (click)="actualizarTarea()">Actualizar</button>
+        </div>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+        <button (click)="closeModalActualizar()"></button>
+    </form>
+</dialog>
+
 <dialog #modalCompletarTarea id="modalCompletarTarea" class="modal">
     <div class="modal-box">
         <h3 class="font-bold text-lg"> {{tareaResponse.estado == 'TERMINADO'? 'Comentario':'Agregue un comentario (Opcional)'}}</h3>
@@ -167,7 +211,7 @@
             <form method="dialog"><button (click)="closeModalComentario()"
                     class="inline-flex justify-center items-center cursor-pointer border p-2 bg-gray-300 text-black rounded-lg text-sm font-medium hover:bg-gray-400 hover:scale-105 transition duration-150">Cerrar</button>
             </form>
-            <a (click)="actualizarEstadoYComentario()" 
+            <a (click)="actualizarEstadoYComentario()"
                 class="inline-flex justify-center items-center cursor-pointer border p-2 bg-green-400 text-black rounded-lg text-sm font-medium hover:bg-green-500 hover:scale-105 transition duration-150">Culminar
                 tarea</a>
         </div>

@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { LucideAngularModule, FileIcon, PanelLeft, Plus, Clock, ChartColumn, Search, CircleCheck, Check, Trash2, MessageSquareWarning } from 'lucide-angular';
+import { LucideAngularModule, FileIcon, PanelLeft, Plus, Clock, ChartColumn, Search, CircleCheck, Check, Trash2, MessageSquareWarning, PencilIcon, Pencil } from 'lucide-angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'
 import { ToastrService } from 'ngx-toastr';
@@ -27,11 +27,12 @@ export class TaskComponent {
 
   readonly icons = {
     fileIcon: FileIcon, panelLeft: PanelLeft, plus: Plus, clock: Clock, circleCheck: CircleCheck,
-    stadistic: ChartColumn, search: Search, trash: Trash2, messageWarning: MessageSquareWarning
+    stadistic: ChartColumn, search: Search, trash: Trash2, messageWarning: MessageSquareWarning, pencil: Pencil
   }
 
   @ViewChild('modalRegistro') modalRegistro!: ElementRef<HTMLDialogElement>;
   @ViewChild('modalCompletarTarea') modalComentarioYEstado!: ElementRef<HTMLDialogElement>;
+  @ViewChild('modalActualizar') modalActualizar!: ElementRef<HTMLDialogElement>;
 
   tareas: TareaResponse[] = [];
   tareasFiltradas: TareaResponse[] = [];
@@ -51,6 +52,7 @@ export class TaskComponent {
 
   showTaskLogin: any = "0";
   carpeta: CarpetaResponse = new CarpetaResponse();
+  carpetaResponse: CarpetaResponse[] = [];
 
   constructor(private tareasService: TareasService, private usuariosService: UsuariosService, private toastr: ToastrService,
     private loginService: LoginService, private carpetaService: CarpetaService
@@ -62,12 +64,20 @@ export class TaskComponent {
     this.contadorPorCarpetaTerminado();
     this.contadorPorCarpetaTotal();
     this.buscarCarpeta();
+    this.listarCarpetas();
   }
 
   buscarCarpeta() {
     const idCarpeta = localStorage.getItem('idCarpeta')?.toString();
     this.carpetaService.getCarpeta(Number(idCarpeta)).subscribe(
       response => this.carpeta = response
+    )
+  }
+
+  listarCarpetas() {
+    const idUsuario = this.loginService.getToken('userToken').idUsuarios;
+    this.carpetaService.getCarpetas(Number(idUsuario)).subscribe(
+      response => this.carpetaResponse = response
     )
   }
 
@@ -172,10 +182,25 @@ export class TaskComponent {
     )
   }
 
+  actualizarTarea(): void {
+    this.tareasService.updateTarea(this.tareaResponse.idTarea, this.tareaResponse).subscribe(
+      () => {
+        this.closeModalActualizar();
+        this.listarPendientes()
+        this.contadorPorCarpetaPendiente();
+        this.contadorPorCarpetaTerminado();
+        this.contadorPorCarpetaTotal();
+        
+        this.toastr.success('Modificado', '');
+      }
+    )
+  }
+
   getTareaPorId(idTarea: number): void {
     this.tareasService.getTareaPorId(idTarea).subscribe(
       response => {
-        this.tareaResponse = response
+        this.tarea = response;
+        this.tareaResponse = response;
       }
     )
   }
@@ -239,6 +264,11 @@ export class TaskComponent {
   closeModalComentario() {
     this.modalComentarioYEstado.nativeElement.close();
     this.comentario = "";
+  }
+
+  closeModalActualizar() {
+    this.modalActualizar.nativeElement.close();
+    this.tarea = new TareaRequest();
   }
 
   trueDesign(estadoBol: string): boolean {
