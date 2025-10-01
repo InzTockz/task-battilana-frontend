@@ -18,8 +18,8 @@ import { FormsModule } from '@angular/forms';
 })
 export class TaskUserComponent {
 
-  
-    readonly icons = {
+
+  readonly icons = {
     fileIcon: FileIcon, panelLeft: PanelLeft, plus: Plus, clock: Clock, circleCheck: CircleCheck,
     stadistic: ChartColumn, search: Search, trash: Trash2
   }
@@ -37,8 +37,8 @@ export class TaskUserComponent {
   fechaFin: string = "";
 
   showTaskLogin: any = "0";
-  idUsuarioSession:string = localStorage.getItem("idUsuario")!;
-  
+  idUsuarioSession: string = localStorage.getItem("idUsuario")!;
+
   @ViewChild('modalRegistro') modalRegistro!: ElementRef<HTMLDialogElement>;
 
   constructor(private tareasService: TareasService, private usuariosService: UsuariosService, private toastr: ToastrService) { }
@@ -48,12 +48,12 @@ export class TaskUserComponent {
     this.listarContadorPendientePorUsuario();
     this.listarContadorCompletadoPorUsuario();
     this.listarContadorTotalPorUsuario();
-    this.showTaskLogin = this.idUsuarioSession!=null ? this.idUsuarioSession:0;
+    this.showTaskLogin = this.idUsuarioSession != null ? this.idUsuarioSession : 0;
     this.usuariosService.getUsuarios().subscribe(response => this.usuarios = response);
   }
 
-  onUserSessionExists():boolean{
-    return this.idUsuarioSession!=null ? true:false;
+  onUserSessionExists(): boolean {
+    return this.idUsuarioSession != null ? true : false;
   }
 
   userChange(user: Event): void {
@@ -127,9 +127,10 @@ export class TaskUserComponent {
 
   registrarTarea(): void {
 
-    const idUsuario = localStorage.getItem("idUsuarios");
+    const idUsuario = localStorage.getItem("idUsuario");
 
     this.tarea.idUsuariosEntity = Number(idUsuario);
+    this.tarea.idCarpeta = undefined;
 
     this.tareasService.postTareas(this.tarea).subscribe(
       () => {

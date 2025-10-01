@@ -114,4 +114,9 @@ export class TareasService {
       return this.http.get<number>(`${this.tareasApi}/contador/carpeta`, {params, headers:this.header.getHeader()});
     }
   }
+
+  //SECCION DE LISTADO DE TAREAS POR USUARIO Y SIN CARPETAS
+  getTareasPorUsuarioSinCarpeta(idUsuario:number):Observable<TareaResponse[]>{
+    return this.http.get<TareaResponse[]>(`${this.tareasApi}/listado/usuario/${idUsuario}/sin-carpeta`);
+  }
 }

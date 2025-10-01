@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TareasService } from '../../services/tareas.service';
 import { LoginService } from '../../services/login.service';
-import { LucideAngularModule, FileIcon, PanelLeft, Plus, Clock, ChartColumn, Search, CircleCheck, Check, Trash2 } from 'lucide-angular';
+import { LucideAngularModule, FileIcon, PanelLeft, Plus, Clock, ChartColumn, Search, CircleCheck, Check, Trash2, HomeIcon, Bell } from 'lucide-angular';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { TareaRequest } from '../../models/tareas/tarea-request';
 import { FormsModule } from '@angular/forms';
@@ -11,6 +11,7 @@ import { CarpetaRequest } from '../../models/carpetas/carpeta-request';
 import { CarpetaResponse } from '../../models/carpetas/carpeta-response';
 import { ToastrService } from 'ngx-toastr';
 import { Estados } from '../../models/tareas/estados';
+import { TareaResponse } from '../../models/tareas/tarea-response';
 
 
 @Component({
@@ -23,7 +24,7 @@ export class HomeComponent implements OnInit {
 
   readonly icons = {
     fileIcon: FileIcon, panelLeft: PanelLeft, plus: Plus, clock: Clock, circleCheck: CircleCheck,
-    stadistic: ChartColumn, search: Search, trash: Trash2
+    stadistic: ChartColumn, search: Search, trash: Trash2, home:HomeIcon, bell:Bell
   }
 
   contadorPendiente!: number;
@@ -32,6 +33,7 @@ export class HomeComponent implements OnInit {
   tarea: TareaRequest = new TareaRequest();
   fechaInicio?: Date;
   fechaFin?: Date;
+  tareaSinCarpeta:TareaResponse[] = [];
 
   @ViewChild('modalTarea') modalRegistro!: ElementRef<HTMLDialogElement>;
   @ViewChild('modalCarpeta') modalCarpetaDialog!: ElementRef<HTMLDialogElement>;
@@ -94,7 +96,7 @@ export class HomeComponent implements OnInit {
     )
   }
 
-  testChange() {
+  filtradoPorFechas() {
     console.log(this.fechaInicio)
     console.log(this.fechaFin)
     const idUsuario = this.loginService.getToken('userToken').idUsuarios;
@@ -106,13 +108,6 @@ export class HomeComponent implements OnInit {
     } else {
       this.getCarpetasId();
     }
-  }
-
-  filtrarCarpetasPorFecha(firstDate: Date, lastDate: Date) {
-    const idUsuario = this.loginService.getToken('userToken').idUsuarios;
-    this.carpetaService.getCarpetaPorUsuarioFechaYEstado(idUsuario, undefined, undefined).subscribe(
-      response => this.carpetaResponse = response
-    )
   }
 
   addTarea() {

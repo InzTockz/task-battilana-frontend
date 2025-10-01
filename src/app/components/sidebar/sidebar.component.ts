@@ -2,12 +2,13 @@ import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule, NgClass } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { faTachometerAlt, faChalkboardTeacher, faArrowLeft, faUserGraduate, faBookOpen, faUserPlus, faFile,
-  faDoorOpen
+  faDoorOpen, faHome
  } from '@fortawesome/free-solid-svg-icons'
 import { SideNavItem } from '../../interfaces/side-nav.interface';
 import { Router, RouterLink, RouterModule, RouterOutlet } from '@angular/router';
 import { LoginService } from '../../services/login.service';
 import { ToastrService } from 'ngx-toastr';
+import { Roles } from '../../models/roles';
 
 @Component({
   selector: 'app-sidebar',
@@ -24,42 +25,32 @@ export class SidebarComponent implements OnInit{
   readonly faFile = faFile;
   readonly faUserPlus = faUserPlus;
   readonly faDoorOpen = faDoorOpen;
+  readonly home = faHome;
 
   public isLeftNavOpen = signal<boolean>(false);
+  isButtonSelected:string = '1';
 
-  navItems: SideNavItem[] = [
-    {
-      icon: this.faTachometerAlt,
-      label: 'Dashboard',
-      route: '',
-      isActive: true
-    },
-    {
-      icon: this.faFile,
-      label: 'Tareas por Usuario',
-      route: '/manager-task',
-      isActive: false
-    },
-    // {
-    //   icon: this.faUserPlus,
-    //   label: 'Registrar Usuario',
-    //   route: 'register-admin',
-    //   isActive: false
-    // }
-  ]
-
+  homeUsers:SideNavItem = {icon: this.home, label: "Inicio", route: ''}
+  fileUsers:SideNavItem = {icon: this.faFile, label: "Tareas por Usuario", route:"/manager-task"}
   navLogout:SideNavItem = {icon: this.faDoorOpen, label: "Cerrar sesion", route: '/logout'}
 
-  constructor(private loginService:LoginService, private toastr:ToastrService, private router:Router){}
+  constructor(private loginService:LoginService, private toastr:ToastrService, private router:Router
+  ){}
 
   ngOnInit(){
+  }
 
+  isAdmin():boolean{
+    const rol = this.loginService.getToken('userToken').rol;
+    if(rol == 'ADMINISTRADOR'){
+      return true;
+    } else {
+      return false;
+    }
   }
   
-  handleActiveRoute(item: SideNavItem, index: number): void {
-    this.navItems.map((navItem, i) => {
-      navItem.isActive = i === index;
-    });
+  isButtonSiderSelected(value:string){
+    this.isButtonSelected = value;
   }
 
   logoutUser(){
