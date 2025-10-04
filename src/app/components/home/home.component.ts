@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TareasService } from '../../services/tareas.service';
 import { LoginService } from '../../services/login.service';
-import { LucideAngularModule, FileIcon, PanelLeft, Plus, Clock, ChartColumn, Search, CircleCheck, Check, Trash2, HomeIcon, Bell } from 'lucide-angular';
+import { LucideAngularModule, FileIcon, PanelLeft, Plus, Clock, ChartColumn, Search, CircleCheck, Check, Trash2, HomeIcon, Bell, X } from 'lucide-angular';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { TareaRequest } from '../../models/tareas/tarea-request';
 import { FormsModule } from '@angular/forms';
@@ -24,16 +24,19 @@ export class HomeComponent implements OnInit {
 
   readonly icons = {
     fileIcon: FileIcon, panelLeft: PanelLeft, plus: Plus, clock: Clock, circleCheck: CircleCheck,
-    stadistic: ChartColumn, search: Search, trash: Trash2, home:HomeIcon, bell:Bell
+    stadistic: ChartColumn, search: Search, trash: Trash2, home: HomeIcon, bell: Bell, close: X
   }
 
   contadorPendiente!: number;
   contadorTerminado!: number;
   contadorTotales!: number;
   tarea: TareaRequest = new TareaRequest();
+  tareaSinCarpeta: TareaResponse[] = [];
   fechaInicio?: Date;
   fechaFin?: Date;
-  tareaSinCarpeta:TareaResponse[] = [];
+  // idCarpeta: number = -1;
+
+  selected: { [idTarea:number]: number} = {};
 
   @ViewChild('modalTarea') modalRegistro!: ElementRef<HTMLDialogElement>;
   @ViewChild('modalCarpeta') modalCarpetaDialog!: ElementRef<HTMLDialogElement>;
@@ -51,10 +54,33 @@ export class HomeComponent implements OnInit {
     this.listarContadorCompletadoPorUsuario();
     this.listarContadorPendientePorUsuario();
     this.listarContadorTotalPorUsuario();
+    this.listadoTareasSinCarpeta();
 
     //SECCION CARPETAS
     this.getCarpetasId();
 
+  }
+
+  listadoTareasSinCarpeta() {
+    const idUsuario = this.loginService.getToken('userToken').idUsuarios;
+    this.tareasService.getTareasPorUsuarioSinCarpeta(idUsuario).subscribe(
+      response => {
+        this.tareaSinCarpeta = response
+      }
+    )
+  }
+
+  agregarCarpetaDeTareas(idTarea: number, idCarpeta?:number) {
+    const elegido = idCarpeta ?? this.selected[idTarea];
+    if(elegido == null || elegido < 0 ) return;
+    this.tareasService.postTareaPorCarpeta(idTarea, elegido).subscribe(
+      () => {
+        this.listadoTareasSinCarpeta();
+
+        let idCarpeta: number = -1;
+
+      }
+    )
   }
 
   listarContadorPendientePorUsuario(): void {

@@ -32,14 +32,11 @@
             </div>
         </div>
         <div class="divider">
-            <h1 class="flex flex-row items-center text-2xl font-bold">
+            <h1 class="flex flex-row items-center justify-center text-2xl font-bold">
                 Proyectos
-                <a class="ml-3" *ngIf="tareaSinCarpeta.length != 0">
-                    <div class="indicator">
-                        <span
-                            class="indicator-item badge badge-error badge-xs w-2 h-2 p-1"></span>
-                        <span-lucide [img]="icons.bell" class="text-amber-600"></span-lucide>
-                    </div>
+                <a onclick="modal_task_without_file.showModal()" class="ml-3 hover:scale-125 duration-200"
+                    *ngIf="tareaSinCarpeta.length!=0">
+                    <span-lucide [img]="icons.bell" class=" text-amber-600 animate-bell cursor-pointer"></span-lucide>
                 </a>
             </h1>
         </div>
@@ -51,9 +48,9 @@
                 </div>
                 <div class="flex flex-row gap-2">
                     <input type="date" [(ngModel)]="fechaInicio" (change)="filtradoPorFechas()"
-                        class="border border-blue-500 rounded-xl p-1">
+                        class="border border-gray-400 rounded-xl p-1">
                     <input type="date" [(ngModel)]="fechaFin" (change)="filtradoPorFechas()"
-                        class="border border-blue-500 rounded-xl p-1">
+                        class="border border-gray-400 rounded-xl p-1">
                     <a onclick="modal_add_file.showModal()"
                         class="inline-flex justify-center items-center cursor-pointer border bg-amber-300 rounded-lg p-2 text-sm font-medium text-black hover:bg-amber-400 hover:scale-105 transition duration-150">Agregar
                         Carpeta</a>
@@ -152,6 +149,47 @@
     </form>
 </dialog>
 
-<dialog #modalTareasSinCarpeta id="modal_task_without_file">
+<dialog #modalTareasSinCarpeta id="modal_task_without_file" class="modal">
+    <div class="modal-box w-11/12 max-w-5xl">
+        <div class="flex flex-row justify-between">
+            <h3 class="font-bold text-xl">Tareas sin carpeta asignada</h3>
+            <form method="dialog">
+                <button class="rounded-full">
+                    <span-lucide [img]="icons.close"></span-lucide>
+                </button>
+            </form>
+        </div>
 
+        <div class="py-4">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nombre de la tarea</th>
+                        <th>Fecha de Creacion</th>
+                        <th>Asignar carpeta</th>
+                        <th>Accion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let t of tareaSinCarpeta">
+                        <td>{{t.nombreTarea}}</td>
+                        <td>{{t.fechaCreacion | date: 'dd/MM/yyyy'}}</td>
+                        <td>
+                            <select [ngModel]="selected[t.idTarea] ?? -1" 
+                            (ngModelChange)="selected[t.idTarea] = $event"
+                            [ngModelOptions]="{standalone:true}"
+                            class="select border border-gray-500">
+                                <option [value]="-1">Seleccione</option>
+                                <option *ngFor="let c of carpetaResponse" [value]="c.idCarpeta">{{c.nombreCarpeta}}
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <button class="btn" (click)="agregarCarpetaDeTareas(t.idTarea)" [disabled]="(selected[t.idTarea] ?? -1) < 0">Agregar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </dialog>

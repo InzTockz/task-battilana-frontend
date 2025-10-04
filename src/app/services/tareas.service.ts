@@ -117,6 +117,9 @@ export class TareasService {
 
   //SECCION DE LISTADO DE TAREAS POR USUARIO Y SIN CARPETAS
   getTareasPorUsuarioSinCarpeta(idUsuario:number):Observable<TareaResponse[]>{
-    return this.http.get<TareaResponse[]>(`${this.tareasApi}/listado/usuario/${idUsuario}/sin-carpeta`);
+    return this.http.get<TareaResponse[]>(`${this.tareasApi}/listado/usuario/${idUsuario}/sin-carpeta`, { headers: this.header.getHeader() });
+  }
+  postTareaPorCarpeta(idTarea:number, idCarpeta:number):Observable<TareaResponse>{
+    return this.http.put<TareaResponse>(`${this.tareasApi}/actualizar/tarea/${idTarea}/carpeta/${idCarpeta}`, null, { headers: this.header.getHeader() });
   }
 }
