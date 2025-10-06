@@ -76,9 +76,6 @@ export class HomeComponent implements OnInit {
     this.tareasService.postTareaPorCarpeta(idTarea, elegido).subscribe(
       () => {
         this.listadoTareasSinCarpeta();
-
-        let idCarpeta: number = -1;
-
       }
     )
   }
