@@ -10,8 +10,8 @@ import { HeaderService } from './header.service';
 })
 export class CarpetaService {
 
-  //private carpetaApi: string = 'http://192.168.1.139:8080/v1/api/carpetas';
-  private carpetaApi: string = 'http://192.168.1.10:8080/v1/api/carpetas';
+  private carpetaApi: string = 'http://192.168.1.139:8080/v1/api/carpetas';
+  //private carpetaApi: string = 'http://192.168.1.10:8080/v1/api/carpetas';
 
   constructor(private http: HttpClient, private header:HeaderService) { }
 

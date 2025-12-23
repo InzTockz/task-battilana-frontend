@@ -16,6 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 export class LoginComponent implements OnInit{
 
   loginRequest:LoginRequest = new LoginRequest();
+  isLoading: Boolean = false
 
   constructor(private loginService:LoginService, private route:Router, private toastr:ToastrService){}
 
@@ -24,15 +25,18 @@ export class LoginComponent implements OnInit{
   }
 
   onLogin(){
+    this.isLoading = true;
     this.loginService.postLogin(this.loginRequest).subscribe(
       response => {
         if(response.statusResponse == 'success'){
           this.loginService.setToken('userToken', response);
           this.route.navigate(['/']);
           this.toastr.success('', 'Bienvenido');
+          this.isLoading = false;
         } else if(response.statusResponse == 'invalid_credentials'){
           this.toastr.error('Credenciales incorrectas', 'Acceso denegado');
           this.loginRequest.password = '';
+          this.isLoading = false;
         }
       }
     )

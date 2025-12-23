@@ -175,6 +175,7 @@
                         <td>{{t.nombreTarea}}</td>
                         <td>{{t.fechaCreacion | date: 'dd/MM/yyyy'}}</td>
                         <td>
+                            <!-- <select [ngModel]="selected[t.idTarea] ?? -1" -->
                             <select [ngModel]="selected[t.idTarea] ?? -1" 
                             (ngModelChange)="selected[t.idTarea] = $event"
                             [ngModelOptions]="{standalone:true}"
