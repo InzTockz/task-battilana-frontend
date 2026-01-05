@@ -26,7 +26,8 @@ export class LoginComponent implements OnInit{
 
   onLogin(){
     this.isLoading = true;
-    this.loginService.postLogin(this.loginRequest).subscribe(
+    setTimeout(() => {
+      this.loginService.postLogin(this.loginRequest).subscribe(
       response => {
         if(response.statusResponse == 'success'){
           this.loginService.setToken('userToken', response);
@@ -40,6 +41,7 @@ export class LoginComponent implements OnInit{
         }
       }
     )
+    }, 2000)
   }
 
 

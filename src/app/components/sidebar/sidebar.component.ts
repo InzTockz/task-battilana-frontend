@@ -2,13 +2,12 @@ import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule, NgClass } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { faTachometerAlt, faChalkboardTeacher, faArrowLeft, faUserGraduate, faBookOpen, faUserPlus, faFile,
-  faDoorOpen, faHome
+  faDoorOpen, faHome, faListCheck, faUserTie, faUsersLine
  } from '@fortawesome/free-solid-svg-icons'
 import { SideNavItem } from '../../interfaces/side-nav.interface';
 import { Router, RouterLink, RouterModule, RouterOutlet } from '@angular/router';
 import { LoginService } from '../../services/login.service';
 import { ToastrService } from 'ngx-toastr';
-import { Roles } from '../../models/roles';
 
 @Component({
   selector: 'app-sidebar',
@@ -26,13 +25,17 @@ export class SidebarComponent implements OnInit{
   readonly faUserPlus = faUserPlus;
   readonly faDoorOpen = faDoorOpen;
   readonly home = faHome;
+  readonly listCheck = faListCheck
+  readonly faUsersLine = faUsersLine
 
   public isLeftNavOpen = signal<boolean>(false);
   isButtonSelected:string = '1';
 
   homeUsers:SideNavItem = {icon: this.home, label: "Inicio", route: ''}
-  fileUsers:SideNavItem = {icon: this.faFile, label: "Tareas por Usuario", route:"/manager-task"}
+  fileUsers:SideNavItem = {icon: this.listCheck, label: "Tareas por Usuario", route:"/manager-task"}
+  userManager:SideNavItem = {icon: this.faUsersLine, label: "Usuarios", route: "/register-admin"}
   navLogout:SideNavItem = {icon: this.faDoorOpen, label: "Cerrar sesion", route: '/logout'}
+
 
   constructor(private loginService:LoginService, private toastr:ToastrService, private router:Router
   ){}
@@ -56,7 +59,7 @@ export class SidebarComponent implements OnInit{
   logoutUser(){
     this.loginService.logout()
     this.router.navigate(['/login'])
-    this.toastr.success('', 'Cerraste sesion')
+    this.toastr.error('', 'Sesión finalizada')
   }
   
 }
