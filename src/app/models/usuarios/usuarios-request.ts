@@ -4,4 +4,5 @@ export class UsuariosRequest {
     apellidos!:string;
     correo!:string;
     password!:string;
+    roles:string = '-1';
 }

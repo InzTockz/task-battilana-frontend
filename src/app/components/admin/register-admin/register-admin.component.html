@@ -1,84 +1,167 @@
-<div class="flex flex-row justify-center items-stretch p-8 gap-4">
+<div class="p-8">
+  <div class="flex -mt-5">
+    <div class="card bg-base-100 border border-black shadow-xl p-3 w-full font-bold text-2xl">
+      <h1 class="text-center">Administracion de Usuarios</h1>
+    </div>
+  </div>
+  <div class="flex flex-col justify-center items-start gap-4 mt-3 md:flex-row">
+    <!-- COLUMNA IZQUIERDA (CARD) -->
+    <div class="flex-1">
+      <div class="card bg-base-100 border border-black shadow-xl h-full w-full">
+        <div class="card-body h-full w-full">
+          <form (submit)="onUserRegister()" class="flex flex-col h-full w-full">
 
-  <!-- COLUMNA IZQUIERDA (CARD) -->
-  <div class="flex-1">
-    <div class="card bg-base-100 border border-black shadow-xl h-full w-full">
-      <div class="card-body h-full w-full">
-        <form (submit)="onUserRegister()" class="flex flex-col h-full w-full">
+            <!-- contenido crece -->
+            <div class="flex-grow space-y-3">
+              <div class="flex flex-row gap-4">
+                <div class="flex flex-col w-full">
+                  <label class="label label-text">Nombre</label>
+                  <input type="text" name="Nombre" [(ngModel)]="usuarioRequest.nombres"
+                    class="input input-primary input-sm w-full" placeholder="Nombre">
+                </div>
 
-          <!-- contenido crece -->
-          <div class="flex-grow space-y-3">
-            <div class="flex flex-row gap-4">
-              <div class="flex flex-col w-full">
-                <label class="label label-text">Nombre</label>
-                <input type="text" name="Nombre" [(ngModel)]="usuarioRequest.nombres"
-                  class="input input-primary input-sm w-full" placeholder="Nombre">
+                <div class="flex flex-col w-full">
+                  <label class="label label-text">Apellido</label>
+                  <input type="text" [(ngModel)]="usuarioRequest.apellidos" name="Apellido"
+                    class="input input-primary input-sm w-full" placeholder="Apellido">
+                </div>
               </div>
 
-              <div class="flex flex-col w-full">
-                <label class="label label-text">Apellido</label>
-                <input type="text" [(ngModel)]="usuarioRequest.apellidos" name="Apellido"
-                  class="input input-primary input-sm w-full" placeholder="Apellido">
+              <div class="flex flex-col">
+                <label class="label label-text">Correo</label>
+                <input type="email" [(ngModel)]="usuarioRequest.correo" name="Correo"
+                  class="input input-primary input-sm w-full" placeholder="correo@battilana.biz">
+              </div>
+
+              <div class="flex flex-col hidden">
+                <label class="label label-text">Roles</label>
+                <select class="select select-primary select-sm w-full" (change)="onSelectChange($event)">
+                  <option>Seleccione</option>
+                  <option *ngFor="let rol of roles" [value]="rol">{{rol}}</option>
+                </select>
+              </div>
+
+              <div class="flex flex-row gap-4">
+                <div class="flex flex-col w-full">
+                  <label class="label label-text">Contraseña</label>
+                  <input type="password" name="password" [(ngModel)]="usuarioRequest.password"
+                    class="input input-primary input-sm w-full h-full" placeholder="Ingrese su contraseña">
+                </div>
+                <div class="flex flex-col w-full">
+                  <label class="label label-text">Rol</label>
+                  <select class="select select-primary" name="roles" [(ngModel)]="usuarioRequest.roles">
+                    <option value="-1">Seleccione</option>
+                    <option *ngFor="let rol of roles" [value]="rol">{{rol == 'ADMINISTRADOR' ? 'Administrador':rol ==
+                      'OPERADOR' ? 'Operador':'Usuario'}}</option>
+                  </select>
+                </div>
               </div>
             </div>
-
-            <div class="flex flex-col">
-              <label class="label label-text">Correo</label>
-              <input type="email" [(ngModel)]="usuarioRequest.correo" name="Correo"
-                class="input input-primary input-sm w-full" placeholder="correo@battilana.biz">
+            <!-- acciones abajo -->
+            <div class="card-actions justify-end mt-10">
+              <button type="button" class="btn btn-info" (click)="limpiarFormulario()">Limpiar formulario</button>
+              <button type="submit" class="btn btn-primary">Registrar usuario</button>
             </div>
-
-            <div class="flex flex-col hidden">
-              <label class="label label-text">Roles</label>
-              <select class="select select-primary select-sm w-full" (change)="onSelectChange($event)">
-                <option>Seleccione</option>
-                <option *ngFor="let rol of roles" [value]="rol">{{rol}}</option>
-              </select>
-            </div>
-
-            <div class="flex flex-col">
-              <label class="label label-text">Contraseña</label>
-              <input type="password" name="password" [(ngModel)]="usuarioRequest.password"
-                class="input input-primary input-sm w-full" placeholder="Ingrese su contraseña">
-            </div>
-          </div>
-
-          <!-- acciones abajo -->
-          <div class="card-actions justify-end mt-3">
-            <button type="button" class="btn btn-info">Limpiar formulario</button>
-            <button type="submit" class="btn btn-primary">Registrar usuario</button>
-          </div>
-
-        </form>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- COLUMNA DERECHA (TABLA) -->
-  <div class="flex-1">
-    <div class="h-full w-full overflow-auto border-black border rounded-xl shadow-xl">
-      <table class="table w-full">
-        <thead>
-          <tr>
-            <th>Nombres y apellidos</th>
-            <th>Correo</th>
-            <th>Rol</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let u of usuarioResponse" class="hover">
-            <td>{{u.nombres + ' ' + u.apellidos}}</td>
-            <td>{{u.correo}}</td>
-            <td>{{u.roles}}</td>
-            <td class="flex flex-row justify-center gap-3">
-              <a class="btn btn-accent">Actualizar</a>
-              <a class="btn btn-error">Eliminar</a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <!-- COLUMNA DERECHA (TABLA) -->
+    <div class="flex-1">
+      <div class="h-full w-full overflow-auto border-black border rounded-xl shadow-xl p-1">
+        <table class="table w-full">
+          <thead>
+            <tr>
+              <th>Nombres y apellidos</th>
+              <th>Correo</th>
+              <th>Rol</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let u of usuariosPagination" class="hover">
+              <td>{{u.nombres + ' ' + u.apellidos}}</td>
+              <td>{{u.correo}}</td>
+              <td>{{u.roles == 'ADMINISTRADOR' ? 'Administrador':u.roles == 'OPERADOR' ? 'Operador':'Usuario'}}</td>
+              <td class="flex flex-row justify-center items-center gap-3 ">
+                <fa-icon onclick="modalRegistro.showModal()" (click)="onUserFind(u.idUsuarios)"
+                  class="hover:scale-125 duration-150 cursor-pointer" [icon]="faPenToSquare"></fa-icon>
+                <fa-icon (click)="onUserDelete(u.idUsuarios)"
+                  class="text-red-500 hover:scale-125 duration-150 cursor-pointer" [icon]="faTrash"></fa-icon>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="flex flex-row justify-center join">
+          <button class="join-item btn" (click)="prev()" [disabled]="page === 1">«</button>
+          <button *ngFor="let p of pages" class="join-item btn" [class.btn-active]="p===page"
+            (click)="goTo(p)">{{p}}</button>
+          <button class="btn join-item" (click)="next()" [disabled]="page === totalPages">»</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<dialog #modalRegistro id="modalRegistro" class="modal">
+  <div class="modal-box max-h-screen overflow-y-auto">
+    <div class="flex flex-col space-y-1.5 text-center sm:text-left">
+      <h3 class="tracking-tight text-xl font-semibold text-purple-700">Actualizar Usuario</h3>
+    </div>
+    <div class="grid gap-4 py-4">
+      <div class="flex-grow space-y-3">
+        <div class="flex flex-row gap-4">
+          <div class="flex flex-col w-full">
+            <label class="label label-text">Nombre</label>
+            <input type="text" name="Nombre" [(ngModel)]="usuarioResponse.nombres"
+              class="input input-primary input-sm w-full" placeholder="Nombre">
+          </div>
+
+          <div class="flex flex-col w-full">
+            <label class="label label-text">Apellido</label>
+            <input type="text" [(ngModel)]="usuarioResponse.apellidos" name="Apellido"
+              class="input input-primary input-sm w-full" placeholder="Apellido">
+          </div>
+        </div>
+
+        <div class="flex flex-col">
+          <label class="label label-text">Correo</label>
+          <input type="email" [(ngModel)]="usuarioResponse.correo" name="Correo"
+            class="input input-primary input-sm w-full" placeholder="correo@battilana.biz">
+        </div>
+
+        <div class="flex flex-row gap-1">
+          <div class="flex flex-row w-full">
+            <div class="flex flex-col">
+              <label class="label label-text">Contraseña</label>
+              <div class="flex flex-row h-full justify-center items-center gap-2">
+                <input type="password" name="password" [(ngModel)]="usuarioResponse.password"
+                  class="input input-primary input-sm w-full h-full" placeholder="**********"
+                  [disabled]="!checkPassword">
+                <input (click)="enablePassword()" type="checkbox" class="size-5" [(ngModel)]="checkPassword">
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-col w-full">
+            <label class="label label-text">Rol</label>
+            <select class="select select-primary" name="roles" [(ngModel)]="usuarioResponse.roles">
+              <option value="-1">Seleccione</option>
+              <option *ngFor="let rol of roles" [value]="rol">{{rol == 'ADMINISTRADOR' ? 'Administrador':rol ==
+                'OPERADOR' ? 'Operador':'Usuario'}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-action">
+      <button class="btn btn-accent" (click)="closeModal()">Cancelar</button>
+      <button class="btn btn-primary" (click)="onUserUpdate()">Actualizar</button>
     </div>
   </div>
 
-</div>
+  <form method="dialog" class="modal-backdrop">
+    <button (click)="closeModal()"></button>
+  </form>
+</dialog>

@@ -16,7 +16,6 @@ import { CarpetaService } from '../../../services/carpeta.service';
 import { Estados } from '../../../models/tareas/estados';
 
 
-
 @Component({
   selector: 'app-task',
   imports: [LucideAngularModule, CommonModule, FormsModule, RouterLink],

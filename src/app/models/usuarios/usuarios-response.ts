@@ -4,6 +4,7 @@ export class UsuariosResponse {
     nombres!:string;
     apellidos!:string;
     correo!:string;
+    password!:string;
     estado!:boolean;
     roles!:string;
     registerStatus!:string;
