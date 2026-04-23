@@ -1,147 +1,191 @@
-<div class="pl-[4%] pr-[4%] pt-[1.5%] pb-[3%]">
-    <div class="flex flex-col justify-center gap-4">
-        <div class="flex flex-col">
-            <div class="flex flex-col justify-between md:flex-row gap-3 md:p-0">
-                <div class="card shadow-2xl rounded-lg border border-base-content md:w-[30%] w-full bg-red-300">
-                    <div class="card-body text-black">
-                        <h3 class="text-left font-semibold text-base flex justify-between">Tareas pendientes
-                            <span-lucide [img]="icons.clock"></span-lucide>
-                        </h3>
-                        <p class="text-left font-bold text-xl">{{contadorPendiente}}</p>
-                        <div class="divider -mt-1 -mb-1"></div>
-                    </div>
+<div class="px-4 sm:px-6 lg:px-10 py-6 lg:py-8 max-w-7xl mx-auto">
+
+    <!-- Header -->
+    <div class="flex flex-col gap-1 mb-6 animate-fade-down">
+        <h1 class="text-2xl sm:text-3xl font-bold text-surface-900">Panel de Proyectos</h1>
+        <p class="text-sm text-surface-500">Gestiona carpetas y tareas desde un solo lugar.</p>
+    </div>
+
+    <!-- Stat cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 stagger mb-6">
+        <div class="ui-card ui-card-hover p-5 animate-fade-up">
+            <div class="flex items-start justify-between">
+                <div>
+                    <p class="text-sm font-medium text-surface-500">Tareas pendientes</p>
+                    <p class="mt-2 text-3xl font-bold text-surface-900">{{contadorPendiente}}</p>
                 </div>
-                <div class="card shadow-2xl rounded-lg border border-base-content md:w-[30%] w-full bg-green-300">
-                    <div class="card-body text-black">
-                        <h3 class="text-left font-semibold text-base flex justify-between">Tareas completadas
-                            <span-lucide [img]="icons.circleCheck"></span-lucide>
-                        </h3>
-                        <p class="text-left font-bold text-xl">{{contadorTerminado}}</p>
-                        <div class="divider -mt-1 -mb-1"></div>
-                    </div>
-                </div>
-                <div class="card shadow-2xl rounded-lg border border-base-content md:w-[30%] w-full bg-blue-300">
-                    <div class="card-body text-black">
-                        <h3 class="text-left font-semibold text-base flex justify-between">Total de tareas
-                            <span-lucide [img]="icons.stadistic"></span-lucide>
-                        </h3>
-                        <p class="text-left font-bold text-xl">{{contadorTotales}}</p>
-                        <div class="divider -mt-1 -mb-1"></div>
-                    </div>
-                </div>
+                <span class="w-11 h-11 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center">
+                    <span-lucide [img]="icons.clock"></span-lucide>
+                </span>
+            </div>
+            <div class="h-1 mt-4 rounded-full bg-rose-100 overflow-hidden">
+                <div class="h-full bg-rose-400 animate-fade-in" style="width: 60%"></div>
             </div>
         </div>
-        <div class="divider">
-            <h1 class="flex flex-row items-center justify-center text-2xl font-bold">
-                Proyectos
-                <a onclick="modal_task_without_file.showModal()" class="ml-3 hover:scale-125 duration-200"
-                    *ngIf="tareaSinCarpeta.length!=0">
-                    <span-lucide [img]="icons.bell" class=" text-amber-600 animate-bell cursor-pointer"></span-lucide>
-                </a>
-            </h1>
-        </div>
-        <div class="-mt-3">
-            <div class="flex flex-row justify-between mb-4">
-                <div class="inline-flex justify-center items-center">
-                    <a class="text-base font-mono text-gray-600">proyectos</a>
-                    <a class="ml-0.5 font-mono">/</a>
+
+        <div class="ui-card ui-card-hover p-5 animate-fade-up">
+            <div class="flex items-start justify-between">
+                <div>
+                    <p class="text-sm font-medium text-surface-500">Tareas completadas</p>
+                    <p class="mt-2 text-3xl font-bold text-surface-900">{{contadorTerminado}}</p>
                 </div>
-                <div class="flex flex-row gap-2">
-                    <input type="date" [(ngModel)]="fechaInicio" (change)="filtradoPorFechas()"
-                        class="border border-gray-400 rounded-xl p-1">
-                    <input type="date" [(ngModel)]="fechaFin" (change)="filtradoPorFechas()"
-                        class="border border-gray-400 rounded-xl p-1">
-                    <a onclick="modal_add_file.showModal()"
-                        class="inline-flex justify-center items-center cursor-pointer border bg-amber-300 rounded-lg p-2 text-sm font-medium text-black hover:bg-amber-400 hover:scale-105 transition duration-150">Agregar
-                        Carpeta</a>
-                    <a onclick="modal_add_task.showModal()"
-                        class="inline-flex justify-center items-center cursor-pointer border p-2 bg-orange-400 text-black rounded-lg text-sm font-medium hover:bg-orange-500 hover:scale-105 transition duration-150">Agregar
-                        Tarea</a>
-                </div>
+                <span class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                    <span-lucide [img]="icons.circleCheck"></span-lucide>
+                </span>
             </div>
-            <div class="overflow-auto">
-                <table class="table table-fixed">
-                    <thead>
-                        <tr>
-                            <th>Tipo</th>
-                            <th>Nombre</th>
-                            <th>Ultima modificacion</th>
-                            <th>Tareas pendientes</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let c of carpetaResponse" class="hover">
-                            <td>
-                                <img class="size-8" src="ic_carpeta.png">
-                            </td>
-                            <td>
-                                <a routerLink="/task" (click)="setIdCarpeta(c.idCarpeta)"
-                                    class="no-underline hover:underline">{{c.nombreCarpeta}}</a>
-                            </td>
-                            <td>{{c.fechaModificacion | date: 'dd/MM/yyyy'}}</td>
-                            <td>{{ contadorTareaPorCarpetaPendiente.get(c.idCarpeta) || 0 }}</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="h-1 mt-4 rounded-full bg-emerald-100 overflow-hidden">
+                <div class="h-full bg-emerald-500 animate-fade-in" style="width: 80%"></div>
+            </div>
+        </div>
+
+        <div class="ui-card ui-card-hover p-5 animate-fade-up sm:col-span-2 lg:col-span-1">
+            <div class="flex items-start justify-between">
+                <div>
+                    <p class="text-sm font-medium text-surface-500">Total de tareas</p>
+                    <p class="mt-2 text-3xl font-bold text-surface-900">{{contadorTotales}}</p>
+                </div>
+                <span class="w-11 h-11 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center">
+                    <span-lucide [img]="icons.stadistic"></span-lucide>
+                </span>
+            </div>
+            <div class="h-1 mt-4 rounded-full bg-sky-100 overflow-hidden">
+                <div class="h-full bg-sky-500 animate-fade-in" style="width: 100%"></div>
             </div>
         </div>
     </div>
+
+    <!-- Toolbar: proyectos + filtros + acciones -->
+    <div class="ui-card p-4 sm:p-5 mb-4 animate-fade-up">
+        <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+            <div class="flex items-center gap-3">
+                <h2 class="text-lg sm:text-xl font-semibold text-surface-900">Proyectos</h2>
+                <a onclick="modal_task_without_file.showModal()"
+                   *ngIf="tareaSinCarpeta.length!=0"
+                   class="relative inline-flex items-center justify-center w-9 h-9 rounded-full bg-amber-50 text-amber-600 hover:bg-amber-100 cursor-pointer transition-colors"
+                   title="Tareas sin carpeta">
+                    <span-lucide [img]="icons.bell" class="animate-bell"></span-lucide>
+                    <span class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-rose-500 text-white text-[10px] font-bold flex items-center justify-center">
+                        {{tareaSinCarpeta.length}}
+                    </span>
+                </a>
+            </div>
+            <div class="flex flex-col sm:flex-row flex-wrap gap-2">
+                <div class="flex flex-col sm:flex-row gap-2">
+                    <input type="date" [(ngModel)]="fechaInicio" (change)="filtradoPorFechas()"
+                        class="ui-input sm:w-auto">
+                    <input type="date" [(ngModel)]="fechaFin" (change)="filtradoPorFechas()"
+                        class="ui-input sm:w-auto">
+                </div>
+                <div class="flex gap-2">
+                    <a onclick="modal_add_file.showModal()" class="ui-btn-secondary flex-1 sm:flex-none cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10.5v6m3-3H9m4.06-7.19l-2.12-2.12A1.5 1.5 0 009.879 3.5H5.25A2.25 2.25 0 003 5.75v12.5A2.25 2.25 0 005.25 20.5h13.5A2.25 2.25 0 0021 18.25V9A2.25 2.25 0 0018.75 6.75h-5.69a1.5 1.5 0 01-1.06-.44z"/></svg>
+                        Nueva carpeta
+                    </a>
+                    <a onclick="modal_add_task.showModal()" class="ui-btn-primary flex-1 sm:flex-none cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+                        Nueva tarea
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Breadcrumb -->
+    <div class="flex items-center gap-2 mb-3 text-sm text-surface-500 animate-fade-in">
+        <span class="font-mono">proyectos</span>
+        <span>/</span>
+    </div>
+
+    <!-- Carpetas grid -->
+    <div *ngIf="carpetaResponse?.length" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 stagger">
+        <div *ngFor="let c of carpetaResponse"
+             class="ui-card ui-card-hover p-4 cursor-pointer animate-fade-up group"
+             routerLink="/task" (click)="setIdCarpeta(c.idCarpeta)">
+            <div class="flex items-start gap-3">
+                <span class="w-11 h-11 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 group-hover:bg-amber-100 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M10 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V8a2 2 0 00-2-2h-8l-2-2z"/></svg>
+                </span>
+                <div class="min-w-0 flex-1">
+                    <h3 class="font-semibold text-surface-900 truncate group-hover:text-brand-700 transition-colors">{{c.nombreCarpeta}}</h3>
+                    <p class="text-xs text-surface-500 mt-0.5">Modificado: {{c.fechaModificacion | date: 'dd/MM/yyyy'}}</p>
+                </div>
+            </div>
+            <div class="mt-4 flex items-center justify-between">
+                <span class="ui-badge-warning" *ngIf="contadorTareaPorCarpetaPendiente.get(c.idCarpeta)">
+                    {{contadorTareaPorCarpetaPendiente.get(c.idCarpeta)}} pendientes
+                </span>
+                <span class="ui-badge-success" *ngIf="!contadorTareaPorCarpetaPendiente.get(c.idCarpeta)">
+                    Al día
+                </span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-surface-400 group-hover:text-brand-600 group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- Empty state -->
+    <div *ngIf="!carpetaResponse?.length" class="ui-card p-10 text-center animate-fade-in">
+        <div class="w-16 h-16 mx-auto rounded-2xl bg-surface-100 text-surface-400 flex items-center justify-center mb-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 00-1.883 2.542l.857 6a2.25 2.25 0 002.227 1.932H19.05a2.25 2.25 0 002.227-1.932l.857-6a2.25 2.25 0 00-1.883-2.542m-16.5 0V6A2.25 2.25 0 016 3.75h3.879a1.5 1.5 0 011.06.44l2.122 2.12a1.5 1.5 0 001.06.44H18A2.25 2.25 0 0120.25 9v.776"/></svg>
+        </div>
+        <p class="text-surface-700 font-medium">No hay carpetas todavía</p>
+        <p class="text-sm text-surface-500 mt-1">Crea tu primera carpeta para organizar las tareas.</p>
+    </div>
 </div>
 
-<!-- ZONA DE LOS MODALES-->
+<!-- MODALES -->
 <dialog #modalCarpeta id="modal_add_file" class="modal modal-bottom sm:modal-middle">
-    <div class="modal-box">
-        <h3 class="font-bold text-lg">Crear carpeta</h3>
-        <div class="py-1 mt-5 flex flex-col">
-            <!-- <label class="label label-text">Nombre de la carpeta</label> -->
-            <input [(ngModel)]="carpetaRequest.nombreCarpeta" class="border border-black rounded-lg p-3 text"
-                placeholder="Ingrese el nombre de la carpeta">
+    <div class="modal-box !rounded-2xl !bg-white !border !border-surface-200 !shadow-card">
+        <h3 class="font-semibold text-lg text-surface-900">Crear carpeta</h3>
+        <p class="text-sm text-surface-500 mt-1">Ingresa el nombre para tu nueva carpeta.</p>
+        <div class="mt-5">
+            <label class="ui-label">Nombre de la carpeta</label>
+            <input [(ngModel)]="carpetaRequest.nombreCarpeta" class="ui-input"
+                placeholder="Ej: Proyecto Q1">
         </div>
         <div class="modal-action">
-            <a (click)="closeModalCarpeta()" class="btn">Cerrar</a>
-            <button type="submit" (click)="addCarpeta()"
-                class="inline-flex justify-center items-center cursor-pointer border p-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 hover:scale-105 transition duration-150">Agregar</button>
+            <button (click)="closeModalCarpeta()" class="ui-btn-ghost">Cancelar</button>
+            <button type="submit" (click)="addCarpeta()" class="ui-btn-primary">Agregar</button>
         </div>
     </div>
 </dialog>
 
 <dialog #modalTarea id="modal_add_task" class="modal modal-bottom sm:modal-middle">
-    <div class="modal-box max-h-screen overflow-y-auto">
-        <div class="flex flex-col space-y-1.5 text-center sm:text-left">
-            <h3 class="tracking-tight text-xl font-semibold text-purple-700">Registro de Tarea</h3>
+    <div class="modal-box max-h-screen overflow-y-auto !rounded-2xl !bg-white !border !border-surface-200 !shadow-card">
+        <div>
+            <h3 class="text-xl font-semibold text-surface-900">Registro de Tarea</h3>
+            <p class="text-sm text-surface-500 mt-1">Complete el formulario para registrar una nueva tarea.</p>
         </div>
-        <div class="grid gap-4 py-4">
-            <div class="grid gap-2">
-                <label class="text-sm font-medium">Nombre de la Tarea</label>
-                <input placeholder="Escriba la tarea..." [(ngModel)]="tarea.nombreTarea"
-                    class="flex h-10 w-full border border-gray-500 rounded-md border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm">
+        <div class="grid gap-4 py-5">
+            <div>
+                <label class="ui-label">Nombre de la Tarea</label>
+                <input placeholder="Escriba la tarea..." [(ngModel)]="tarea.nombreTarea" class="ui-input">
             </div>
-            <div class="grid gap-2">
-                <label class="text-sm font-medium">Descripción</label>
-                <textarea placeholder="Escriba una descripcion..." [(ngModel)]="tarea.descripcion"
-                    class="flex min-h-[80px] w-full rounded-md border border-gray-500  border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"></textarea>
+            <div>
+                <label class="ui-label">Descripción</label>
+                <textarea placeholder="Escriba una descripción..." [(ngModel)]="tarea.descripcion"
+                    class="ui-input min-h-[90px]"></textarea>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div class="grid gap-2 relative">
-                    <label class="text-sm font-medium">Fecha de Inicio</label>
-                    <input type="date" [(ngModel)]="tarea.fechaInicio" class="border border-gray-500 rounded-md p-2">
+                <div>
+                    <label class="ui-label">Fecha de Inicio</label>
+                    <input type="date" [(ngModel)]="tarea.fechaInicio" class="ui-input">
                 </div>
-                <div class="grid gap-2">
-                    <label class="text-sm font-medium">Fecha de Fin</label>
-                    <input type="date" [(ngModel)]="tarea.fechaFin" class="border border-gray-500 rounded-md p-2">
+                <div>
+                    <label class="ui-label">Fecha de Fin</label>
+                    <input type="date" [(ngModel)]="tarea.fechaFin" class="ui-input">
                 </div>
             </div>
-            <div class="grid gap-2">
-                <label class="text-sm font-medium">Carpetas</label>
-                <select class="select select-bordered border border-gray-500" [(ngModel)]="tarea.idCarpeta">
+            <div>
+                <label class="ui-label">Carpeta</label>
+                <select class="ui-input" [(ngModel)]="tarea.idCarpeta">
                     <option value="-1">Seleccione</option>
                     <option *ngFor="let c of carpetaResponse" [value]="c.idCarpeta">{{c.nombreCarpeta}}</option>
                 </select>
             </div>
         </div>
         <div class="modal-action">
-            <form method="dialog"><button class="btn btn-accent" (click)="closeModalTarea()">Cancelar</button></form>
-            <button class="btn btn-primary" (click)="addTarea()">Registrar</button>
+            <form method="dialog"><button class="ui-btn-ghost" (click)="closeModalTarea()">Cancelar</button></form>
+            <button class="ui-btn-primary" (click)="addTarea()">Registrar</button>
         </div>
     </div>
     <form method="dialog" class="modal-backdrop">
@@ -149,44 +193,46 @@
     </form>
 </dialog>
 
-<dialog #modalTareasSinCarpeta id="modal_task_without_file" class="modal">
-    <div class="modal-box w-11/12 max-w-5xl">
-        <div class="flex flex-row justify-between">
-            <h3 class="font-bold text-xl">Tareas sin carpeta asignada</h3>
+<dialog #modalTareasSinCarpeta id="modal_task_without_file" class="modal modal-bottom sm:modal-middle">
+    <div class="modal-box w-11/12 max-w-5xl !rounded-2xl !bg-white !border !border-surface-200 !shadow-card">
+        <div class="flex flex-row justify-between items-start">
+            <div>
+                <h3 class="font-semibold text-lg text-surface-900">Tareas sin carpeta asignada</h3>
+                <p class="text-sm text-surface-500 mt-1">Asigna una carpeta a estas tareas para mantener el orden.</p>
+            </div>
             <form method="dialog">
-                <button class="rounded-full">
+                <button class="w-9 h-9 rounded-full hover:bg-surface-100 flex items-center justify-center text-surface-500">
                     <span-lucide [img]="icons.close"></span-lucide>
                 </button>
             </form>
         </div>
 
-        <div class="py-4">
-            <table class="table">
+        <div class="mt-4 overflow-x-auto">
+            <table class="w-full text-sm">
                 <thead>
-                    <tr>
-                        <th>Nombre de la tarea</th>
-                        <th>Fecha de Creacion</th>
-                        <th>Asignar carpeta</th>
-                        <th>Accion</th>
+                    <tr class="text-left text-xs uppercase tracking-wider text-surface-500 border-b border-surface-200">
+                        <th class="py-3 px-3">Nombre</th>
+                        <th class="py-3 px-3">Creación</th>
+                        <th class="py-3 px-3">Carpeta</th>
+                        <th class="py-3 px-3 text-right">Acción</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let t of tareaSinCarpeta">
-                        <td>{{t.nombreTarea}}</td>
-                        <td>{{t.fechaCreacion | date: 'dd/MM/yyyy'}}</td>
-                        <td>
-                            <!-- <select [ngModel]="selected[t.idTarea] ?? -1" -->
-                            <select [ngModel]="selected[t.idTarea] ?? -1" 
-                            (ngModelChange)="selected[t.idTarea] = $event"
-                            [ngModelOptions]="{standalone:true}"
-                            class="select border border-gray-500">
+                    <tr *ngFor="let t of tareaSinCarpeta" class="border-b border-surface-100 hover:bg-surface-50 transition-colors">
+                        <td class="py-3 px-3 font-medium text-surface-800">{{t.nombreTarea}}</td>
+                        <td class="py-3 px-3 text-surface-500">{{t.fechaCreacion | date: 'dd/MM/yyyy'}}</td>
+                        <td class="py-3 px-3">
+                            <select [ngModel]="selected[t.idTarea] ?? -1"
+                                (ngModelChange)="selected[t.idTarea] = $event"
+                                [ngModelOptions]="{standalone:true}"
+                                class="ui-input py-1.5">
                                 <option [value]="-1">Seleccione</option>
-                                <option *ngFor="let c of carpetaResponse" [value]="c.idCarpeta">{{c.nombreCarpeta}}
-                                </option>
+                                <option *ngFor="let c of carpetaResponse" [value]="c.idCarpeta">{{c.nombreCarpeta}}</option>
                             </select>
                         </td>
-                        <td>
-                            <button class="btn" (click)="agregarCarpetaDeTareas(t.idTarea)" [disabled]="(selected[t.idTarea] ?? -1) < 0">Agregar</button>
+                        <td class="py-3 px-3 text-right">
+                            <button class="ui-btn-primary" (click)="agregarCarpetaDeTareas(t.idTarea)"
+                                    [disabled]="(selected[t.idTarea] ?? -1) < 0">Agregar</button>
                         </td>
                     </tr>
                 </tbody>

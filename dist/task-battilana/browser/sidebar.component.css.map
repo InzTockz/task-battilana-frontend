@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/components/sidebar/sidebar.component.css"],
+  "sourcesContent": [".sidebar-gradient {\n  background: linear-gradient(180deg, #1e1b4b 0%, #312e81 60%, #3730a3 100%);\n}\n\n.nav-link {\n  position: relative;\n  transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);\n}\n\n.nav-link::before {\n  content: '';\n  position: absolute;\n  left: 0;\n  top: 50%;\n  transform: translateY(-50%) scaleY(0);\n  width: 3px;\n  height: 70%;\n  background: #a5b4fc;\n  border-radius: 0 4px 4px 0;\n  transition: transform 0.25s ease;\n}\n\n.nav-link.active::before,\n.nav-link:hover::before {\n  transform: translateY(-50%) scaleY(1);\n}\n\n.nav-link.active {\n  background: rgba(255, 255, 255, 0.08);\n}\n"],
+  "mappings": ";AAAA,CAAC;AACC;AAAA,IAAY;AAAA,MAAgB,MAAhB;AAAA,MAAwB,QAAQ,EAAhC;AAAA,MAAoC,QAAQ,GAA5C;AAAA,MAAiD,QAAQ;AACvE;AAEA,CAAC;AACC,YAAU;AACV,cAAY,IAAI,MAAM,aAAa,IAAI,EAAE,CAAC,EAAE,IAAI,EAAE;AACpD;AAEA,CALC,QAKQ;AACP,WAAS;AACT,YAAU;AACV,QAAM;AACN,OAAK;AACL,aAAW,WAAW,MAAM,OAAO;AACnC,SAAO;AACP,UAAQ;AACR,cAAY;AACZ,iBAAe,EAAE,IAAI,IAAI;AACzB,cAAY,UAAU,MAAM;AAC9B;AAEA,CAlBC,QAkBQ,CAAC,MAAM;AAChB,CAnBC,QAmBQ,MAAM;AACb,aAAW,WAAW,MAAM,OAAO;AACrC;AAEA,CAvBC,QAuBQ,CALC;AAMR,cAAY,KAAK,GAAG,EAAE,GAAG,EAAE,GAAG,EAAE;AAClC;",
+  "names": []
+}

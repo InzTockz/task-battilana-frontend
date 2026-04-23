@@ -1,7 +1,30 @@
-.bg-dark-pruple{
-    background-color: #081A51;
+.sidebar-gradient {
+  background: linear-gradient(180deg, #1e1b4b 0%, #312e81 60%, #3730a3 100%);
 }
 
-.text-dark-purple{
-    color: #081A51;
+.nav-link {
+  position: relative;
+  transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-link::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%) scaleY(0);
+  width: 3px;
+  height: 70%;
+  background: #a5b4fc;
+  border-radius: 0 4px 4px 0;
+  transition: transform 0.25s ease;
+}
+
+.nav-link.active::before,
+.nav-link:hover::before {
+  transform: translateY(-50%) scaleY(1);
+}
+
+.nav-link.active {
+  background: rgba(255, 255, 255, 0.08);
 }

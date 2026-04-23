@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit{
 
   loginRequest:LoginRequest = new LoginRequest();
   isLoading: Boolean = false
+  year: number = new Date().getFullYear();
 
   constructor(private loginService:LoginService, private route:Router, private toastr:ToastrService){}
 
